@@ -1,5 +1,6 @@
 package com.autoflex.challenge.resources;
 
+import com.autoflex.challenge.dto.RawMaterialDTO;
 import com.autoflex.challenge.models.RawMaterial;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
@@ -19,7 +20,11 @@ public class RawMaterialResource {
 
     @POST
     @Transactional
-    public Response create(RawMaterial material) {
+    public Response create(RawMaterialDTO dto) {
+        RawMaterial material = new RawMaterial();
+        material.name = dto.name();
+        material.stockQuantity = dto.stockQuantity();
+        
         material.persist();
         return Response.status(Response.Status.CREATED).entity(material).build();
     }

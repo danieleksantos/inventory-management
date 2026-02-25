@@ -1,17 +1,21 @@
-package com.autoflex.challenge.resources;
+    package com.autoflex.challenge.resources;
 
-import com.autoflex.challenge.services.ProductionService;
-import jakarta.inject.Inject;
-import jakarta.ws.rs.Path;
+    import com.autoflex.challenge.services.ProductionService;
+    import com.autoflex.challenge.dto.ProductionResponseDTO;
+    import jakarta.inject.Inject;
+    import jakarta.ws.rs.Path;
+    import jakarta.ws.rs.Produces;
+    import jakarta.ws.rs.core.MediaType;
 
-@Path("/production-suggestions")
-public class ProductionResource implements ProductionAPI {
+    @Path("/production-suggestions")
+    @Produces(MediaType.APPLICATION_JSON)
+    public class ProductionResource implements ProductionAPI {
 
-    @Inject
-    ProductionService service;
+        @Inject
+        ProductionService service;
 
-    @Override
-    public ProductionService.ProductionResponseDTO getSuggestions() {
-        return service.calculateSuggestions();
+        @Override
+        public ProductionResponseDTO getSuggestions() {
+            return service.calculateSuggestions();
+        }
     }
-}

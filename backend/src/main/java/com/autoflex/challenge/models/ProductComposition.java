@@ -5,9 +5,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 @Entity
 public class ProductComposition extends PanacheEntity {
+
+    @Schema(hidden = true) 
+    public Long id;
 
     @ManyToOne
     @NotNull

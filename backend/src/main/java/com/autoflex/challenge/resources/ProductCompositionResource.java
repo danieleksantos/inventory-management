@@ -1,6 +1,10 @@
 package com.autoflex.challenge.resources;
 
+import com.autoflex.challenge.dto.ProductCompositionDTO;
+import com.autoflex.challenge.models.Product;
 import com.autoflex.challenge.models.ProductComposition;
+import com.autoflex.challenge.models.RawMaterial;
+
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -14,8 +18,23 @@ public class ProductCompositionResource {
 
     @POST
     @Transactional
-    public Response addIngredient(ProductComposition composition) {
+    public Response addIngredient(ProductCompositionDTO dto) {
+        ProductComposition composition = new ProductComposition();
+        
+        Product product = Product.findById(dto.productId());
+        RawMaterial material = RawMaterial.findById(dto.rawMaterialId());
+
+        if (product == null || material == null) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                .entity("Product or Raw Material not found with the provided IDs").build();
+        }
+
+        composition.product = product;
+        composition.rawMaterial = material;
+        composition.quantityNeeded = dto.quantityNeeded();
+
         composition.persist();
+        
         return Response.status(Response.Status.CREATED).entity(composition).build();
     }
 

@@ -1,10 +1,10 @@
 package com.autoflex.challenge.services;
 
 import com.autoflex.challenge.models.*;
+import com.autoflex.challenge.dto.*;
 import jakarta.enterprise.context.ApplicationScoped;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.math.BigDecimal;
 
 @ApplicationScoped
 public class ProductionService {
@@ -58,12 +58,4 @@ public class ProductionService {
         return new ProductionResponseDTO(suggestions, remainders);
     }
    
-    public record ProductionSuggestionDTO(String productName, int quantity, BigDecimal unitPrice) {}
-
-    public record StockRemainderDTO(String materialName, Double remainingQuantity) {}
-
-    public record ProductionResponseDTO(
-        List<ProductionSuggestionDTO> suggestions,
-        List<StockRemainderDTO> remainders
-    ) {}
 }

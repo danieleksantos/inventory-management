@@ -1,6 +1,6 @@
 package com.autoflex.challenge.resources;
 
-import com.autoflex.challenge.services.ProductionService;
+import com.autoflex.challenge.dto.ProductionResponseDTO;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import jakarta.ws.rs.GET;
@@ -16,5 +16,5 @@ public interface ProductionAPI {
         summary = "Obter sugestões de produção",
         description = "Analisa o estoque atual e sugere a produção priorizando produtos de maior valor, listando também o resíduo de matéria-prima."
     )
-    ProductionService.ProductionResponseDTO getSuggestions();
+    ProductionResponseDTO getSuggestions();
 }
