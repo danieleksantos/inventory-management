@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import type { Product } from '../types/inventory';
 import { productService } from '../services/productService';
+import type { Product } from '../types/inventory';
 
 interface ProductState {
   items: Product[];
@@ -14,9 +14,13 @@ const initialState: ProductState = {
   error: null,
 };
 
-export const fetchProducts = createAsyncThunk('products/fetchProducts', async () => {
-  return await productService.getAll();
-});
+export const fetchProducts = createAsyncThunk(
+  'products/fetchProducts',
+  async () => {
+    const response = await productService.getAll();
+    return response.data;
+  }
+);
 
 const productSlice = createSlice({
   name: 'products',
@@ -33,7 +37,7 @@ const productSlice = createSlice({
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || 'Falha ao carregar produtos';
+        state.error = action.error.message || 'Erro ao carregar produtos';
       });
   },
 });

@@ -1,22 +1,19 @@
-// ProductDTO.java
 export interface Product {
   id?: number;
   name: string;
-  price: number;
+  price: number; 
 }
 
-// RawMaterialDTO.java
 export interface RawMaterial {
   id?: number;
   name: string;
   stockQuantity: number;
 }
 
-// ProductionResponseDTO.java
 export interface ProductionSuggestion {
   productName: string;
-  quantity: number;
-  unitPrice: number;
+  quantity: number;    
+  unitPrice: number;  
 }
 
 export interface StockRemainder {

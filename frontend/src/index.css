@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 @theme {
+  --color-inventory-200: #FAF3E6;
   --color-inventory-600: #8B5E3C;
   --color-inventory-700: #6F4A30;
   --color-inventory-800: #5C3D27;
@@ -10,4 +11,15 @@
   
   --color-surface-base: #FDFBFA;
   --color-surface-card: #FFFFFF;
+}
+
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
 }
