@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Sidebar } from './components/Sidebar';
 import { DashboardPage } from './pages/DashboardPage';
-//import { ProductsPage } from './pages/ProductsPage';
+import { ProductsPage } from './pages/ProductsPage';
 import { RawMaterialsPage } from './pages/RawMaterialsPage';
 //import { RecipesPage } from './pages/RecipesPage';
 import { useAppDispatch } from './store/hooks';
@@ -22,7 +22,7 @@ export default function App() {
   const renderPage = () => {
     switch (activePage) {
       case 'dashboard': return <DashboardPage />;
-     // case 'products': return <ProductsPage />;
+      case 'products': return <ProductsPage />;
       case 'materials': return <RawMaterialsPage />;
      // case 'recipes': return <RecipesPage />;
       default: return <DashboardPage />;

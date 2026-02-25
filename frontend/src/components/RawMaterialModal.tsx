@@ -49,9 +49,11 @@ export function RawMaterialModal({
               <label className="text-[10px] font-black uppercase text-inventory-500 ml-1 mb-2 block tracking-widest">Quantidade</label>
               <input 
                 type="number" required min="0"
+                placeholder="0"
                 className="w-full bg-inventory-100/50 border-2 border-inventory-100 p-4 rounded-2xl outline-none focus:border-accent-primary focus:bg-white transition-all font-bold text-inventory-800"
-                value={formData.stockQuantity}
-                onChange={e => setFormData({...formData, stockQuantity: Number(e.target.value)})}
+                value={formData.stockQuantity === 0 ? '' : formData.stockQuantity}
+                onChange={e => setFormData({...formData, stockQuantity: e.target.value === '' ? 0 : Number(e.target.value)})}
+                onFocus={(e) => e.target.select()}
               />
             </div>
 
