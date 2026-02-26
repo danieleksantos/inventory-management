@@ -10,14 +10,13 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 
-RUN addgroup -S spring && adduser -S spring -G spring
-USER spring:spring
+RUN addgroup -S quarkus && adduser -S quarkus -G quarkus
+USER quarkus:quarkus
 
 COPY --from=build /app/target/quarkus-app/lib/ ./lib/
 COPY --from=build /app/target/quarkus-app/*.jar ./app.jar
 COPY --from=build /app/target/quarkus-app/app/ ./app/
 COPY --from=build /app/target/quarkus-app/quarkus/ ./quarkus/
-COPY --from=build /app/src/main/resources/import.sql ./import.sql
 
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
