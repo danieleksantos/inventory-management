@@ -19,7 +19,7 @@ export const fetchSuggestions = createAsyncThunk(
   async () => {
     const response = await productionService.getSuggestions();
     return response.data;
-  }
+  },
 );
 
 const productionSlice = createSlice({

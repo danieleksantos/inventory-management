@@ -27,8 +27,6 @@ services:
       - QUARKUS_DATASOURCE_JDBC_URL=jdbc:postgresql://db:5432/inventory_db
       - QUARKUS_DATASOURCE_USERNAME=user
       - QUARKUS_DATASOURCE_PASSWORD=password
-      # Mantenha 'drop-and-create' se quiser que o banco resete em todo 'up'
-      # Ou 'update' se quiser persistência entre reinícios
       - QUARKUS_HIBERNATE_ORM_DATABASE_GENERATION=drop-and-create
     depends_on:
       db:

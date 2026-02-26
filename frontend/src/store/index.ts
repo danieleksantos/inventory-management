@@ -1,13 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import productReducer from './productSlice';
 import rawMaterialReducer from './rawMaterialSlice';
-import productionReducer from './productionSlice'; 
+import productionReducer from './productionSlice';
 
 export const store = configureStore({
   reducer: {
     products: productReducer,
-    rawMaterials: rawMaterialReducer, 
-    production: productionReducer, 
+    rawMaterials: rawMaterialReducer,
+    production: productionReducer,
   },
 });
 

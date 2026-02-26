@@ -8,6 +8,6 @@ export const Toast = Swal.mixin({
   timerProgressBar: true,
   customClass: {
     popup: 'rounded-2xl border border-inventory-100 shadow-xl bg-white',
-    title: 'text-sm font-bold text-inventory-800'
-  }
+    title: 'text-sm font-bold text-inventory-800',
+  },
 });

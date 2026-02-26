@@ -20,26 +20,24 @@ export default function App() {
   }, [dispatch]);
 
   const renderPage = () => {
-  switch (activePage) {
-    case 'dashboard': 
-      return <DashboardPage />;
-    case 'products': 
-      return <ProductsPage />;
-    case 'materials': 
-      return <RawMaterialsPage />;
-    case 'recipes': 
-      return <RecipesPage />;
-    default: 
-      return <DashboardPage />;
-  }
-};
+    switch (activePage) {
+      case 'dashboard':
+        return <DashboardPage />;
+      case 'products':
+        return <ProductsPage />;
+      case 'materials':
+        return <RawMaterialsPage />;
+      case 'recipes':
+        return <RecipesPage />;
+      default:
+        return <DashboardPage />;
+    }
+  };
 
   return (
     <div className="flex min-h-screen bg-[#FDFCFB] font-sans text-inventory-900">
       <Sidebar activePage={activePage} setActivePage={setActivePage} />
-      <main className="flex-1 p-6 md:p-10 overflow-y-auto">
-        {renderPage()}
-      </main>
+      <main className="flex-1 p-6 md:p-10 overflow-y-auto">{renderPage()}</main>
     </div>
   );
 }

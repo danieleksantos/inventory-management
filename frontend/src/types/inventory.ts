@@ -1,7 +1,7 @@
 export interface Product {
   id?: number;
   name: string;
-  price: number; 
+  price: number;
 }
 
 export interface RawMaterial {
@@ -12,8 +12,8 @@ export interface RawMaterial {
 
 export interface ProductionSuggestion {
   productName: string;
-  quantity: number;    
-  unitPrice: number;  
+  quantity: number;
+  unitPrice: number;
 }
 
 export interface StockRemainder {

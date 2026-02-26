@@ -19,7 +19,7 @@ export const fetchRawMaterials = createAsyncThunk(
   async () => {
     const response = await rawMaterialService.getAll();
     return response.data;
-  }
+  },
 );
 
 export const deleteRawMaterial = createAsyncThunk(
@@ -27,7 +27,7 @@ export const deleteRawMaterial = createAsyncThunk(
   async (id: number) => {
     await rawMaterialService.delete(id);
     return id;
-  }
+  },
 );
 
 const rawMaterialSlice = createSlice({
@@ -47,9 +47,9 @@ const rawMaterialSlice = createSlice({
         state.loading = false;
         state.error = action.error.message || 'Erro ao carregar insumos';
       })
-      
+
       .addCase(deleteRawMaterial.fulfilled, (state, action) => {
-        state.items = state.items.filter(item => item.id !== action.payload);
+        state.items = state.items.filter((item) => item.id !== action.payload);
       })
       .addCase(deleteRawMaterial.rejected, (state, action) => {
         state.error = action.error.message || 'Erro ao deletar insumo';

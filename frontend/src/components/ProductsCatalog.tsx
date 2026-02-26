@@ -30,8 +30,8 @@ export function ProductsCatalog() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {items.map((p) => (
-          <div 
-            key={p.id} 
+          <div
+            key={p.id}
             className="group bg-white p-7 rounded-4xl border border-inventory-100 shadow-sm transition-all"
           >
             <div className="space-y-1 mb-4">
@@ -45,13 +45,19 @@ export function ProductsCatalog() {
 
             <div className="pt-4 border-t border-inventory-50 flex justify-between items-end">
               <div className="space-y-0.5">
-                <p className="text-[9px] font-black text-inventory-300 uppercase tracking-[0.2em]">Valor</p>
+                <p className="text-[9px] font-black text-inventory-300 uppercase tracking-[0.2em]">
+                  Valor
+                </p>
                 <p className="font-black text-xl text-inventory-800 italic tracking-tighter">
-                  <span className="text-xs not-italic mr-1 text-inventory-400">R$</span>
-                  {p.price?.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+                  <span className="text-xs not-italic mr-1 text-inventory-400">
+                    R$
+                  </span>
+                  {p.price?.toLocaleString('pt-BR', {
+                    minimumFractionDigits: 2,
+                  })}
                 </p>
               </div>
-              
+
               {/* Badge decorativo industrial */}
               <div className="h-2 w-8 bg-inventory-100 rounded-full mb-2" />
             </div>

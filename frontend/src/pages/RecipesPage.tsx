@@ -5,14 +5,18 @@ import { Plus } from 'lucide-react';
 export function RecipesPage() {
   return (
     <div className="animate-in fade-in duration-500 pb-10">
-      <Header 
-        title="Gestão de" 
-        highlight="Receitas" 
-        subtitle="Vínculo entre produtos e matérias-primas" 
+      <Header
+        title="Gestão de"
+        highlight="Receitas"
+        subtitle="Vínculo entre produtos e matérias-primas"
       />
 
       <div className="mb-8">
-        <Button variant="primary" icon={Plus} className="w-full md:w-auto py-5 md:py-4">
+        <Button
+          variant="primary"
+          icon={Plus}
+          className="w-full md:w-auto py-5 md:py-4"
+        >
           Nova Receita
         </Button>
       </div>

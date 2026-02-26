@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { 
-  LayoutDashboard, 
-  Package, 
-  Database, 
-  ReceiptText, 
-  Menu, 
-  X 
+import {
+  LayoutDashboard,
+  Package,
+  Database,
+  ReceiptText,
+  Menu,
+  X,
 } from 'lucide-react';
 
 const menuItems = [
@@ -25,30 +25,35 @@ export function Sidebar({ activePage, setActivePage }: SidebarProps) {
 
   return (
     <>
-      <button 
-        onClick={() => setIsOpen(true)} 
+      <button
+        onClick={() => setIsOpen(true)}
         className={`lg:hidden fixed top-6 left-6 z-60 p-3 bg-accent-primary text-white rounded-2xl shadow-lg shadow-accent-primary/30 active:scale-95 transition-all ${isOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
       >
         <Menu size={24} />
       </button>
 
       {isOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-inventory-900/40 backdrop-blur-sm z-70 lg:hidden"
           onClick={() => setIsOpen(false)}
         />
       )}
 
-      <aside className={`
+      <aside
+        className={`
         fixed lg:static inset-y-0 left-0 z-80 w-72 bg-white border-r border-inventory-100 
         transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} 
         lg:translate-x-0 transition-all duration-300 ease-in-out flex flex-col shadow-2xl lg:shadow-none
-      `}>
-        
+      `}
+      >
         <div className="p-8 border-b border-inventory-50">
           <div className="flex items-center justify-between">
             <div className="flex flex-col gap-1">
-              <img src="/logo.png" alt="Logo" className="h-10 w-auto object-contain self-start" />
+              <img
+                src="/logo.png"
+                alt="Logo"
+                className="h-10 w-auto object-contain self-start"
+              />
               <div className="mt-2">
                 <h2 className="text-sm font-black text-inventory-800 uppercase italic tracking-tighter leading-tight">
                   Smart Inventory
@@ -58,8 +63,8 @@ export function Sidebar({ activePage, setActivePage }: SidebarProps) {
                 </p>
               </div>
             </div>
-            
-            <button 
+
+            <button
               onClick={() => setIsOpen(false)}
               className="lg:hidden p-2 -mr-2 text-inventory-400 hover:text-accent-primary transition-colors cursor-pointer"
             >
@@ -74,15 +79,17 @@ export function Sidebar({ activePage, setActivePage }: SidebarProps) {
             return (
               <button
                 key={item.id}
-                onClick={() => { 
-                  setActivePage(item.id); 
-                  setIsOpen(false); 
+                onClick={() => {
+                  setActivePage(item.id);
+                  setIsOpen(false);
                 }}
                 className={`
                   w-full flex items-center gap-4 px-6 py-4 rounded-2xl font-black uppercase text-xs tracking-widest transition-all cursor-pointer
-                  ${isActive 
-                    ? 'bg-accent-primary text-white shadow-xl' 
-                    : 'text-inventory-400 hover:translate-x-1'}
+                  ${
+                    isActive
+                      ? 'bg-accent-primary text-white shadow-xl'
+                      : 'text-inventory-400 hover:translate-x-1'
+                  }
                 `}
               >
                 <item.icon size={20} strokeWidth={isActive ? 3 : 2} />
@@ -95,8 +102,11 @@ export function Sidebar({ activePage, setActivePage }: SidebarProps) {
         <div className="p-8 space-y-4">
           <div className="text-center">
             <p className="text-[8px] font-bold text-inventory-300 uppercase tracking-[0.2em]">
-              © 2026 Smart Inventory Management<br/>
-              <span className="opacity-50 font-medium">Todos os direitos reservados</span>
+              © 2026 Smart Inventory Management
+              <br />
+              <span className="opacity-50 font-medium">
+                Todos os direitos reservados
+              </span>
             </p>
           </div>
         </div>

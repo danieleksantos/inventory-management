@@ -9,21 +9,22 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   loading?: boolean;
 }
 
-export function Button({ 
-  children, 
-  variant = 'primary', 
-  icon: Icon, 
-  loading, 
-  className = '', 
-  ...props 
+export function Button({
+  children,
+  variant = 'primary',
+  icon: Icon,
+  loading,
+  className = '',
+  ...props
 }: ButtonProps) {
-  
   const variants = {
-    primary: 'bg-inventory-800 text-white hover:bg-inventory-700 shadow-lg shadow-inventory-900/10',
-    
-    secondary: 'bg-accent-primary text-white hover:brightness-110 shadow-lg shadow-accent-primary/20',
-    
-    danger: 'bg-red-500 text-white hover:bg-red-600 shadow-lg shadow-red-200'
+    primary:
+      'bg-inventory-800 text-white hover:bg-inventory-700 shadow-lg shadow-inventory-900/10',
+
+    secondary:
+      'bg-accent-primary text-white hover:brightness-110 shadow-lg shadow-accent-primary/20',
+
+    danger: 'bg-red-500 text-white hover:bg-red-600 shadow-lg shadow-red-200',
   };
 
   return (

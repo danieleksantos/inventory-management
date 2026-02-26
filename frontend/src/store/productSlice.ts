@@ -14,13 +14,12 @@ const initialState: ProductState = {
   error: null,
 };
 
-
 export const fetchProducts = createAsyncThunk(
   'products/fetchProducts',
   async () => {
     const response = await productService.getAll();
     return response.data;
-  }
+  },
 );
 
 export const createProduct = createAsyncThunk(
@@ -28,23 +27,30 @@ export const createProduct = createAsyncThunk(
   async (data: { name: string; price: number }) => {
     const response = await productService.create(data);
     return response.data;
-  }
+  },
 );
 
 export const updateProduct = createAsyncThunk(
   'products/updateProduct',
-  async ({ id, ...data }: { id: string | number; name: string; price: number }) => {
+  async ({
+    id,
+    ...data
+  }: {
+    id: string | number;
+    name: string;
+    price: number;
+  }) => {
     const response = await productService.update(id.toString(), data);
     return response.data;
-  }
+  },
 );
 
 export const deleteProduct = createAsyncThunk(
   'products/deleteProduct',
   async (id: string | number) => {
     await productService.delete(id.toString());
-    return id; 
-  }
+    return id;
+  },
 );
 
 const productSlice = createSlice({
@@ -68,14 +74,16 @@ const productSlice = createSlice({
         state.items.push(action.payload);
       })
       .addCase(updateProduct.fulfilled, (state, action) => {
-        const index = state.items.findIndex((item) => String(item.id) === String(action.payload.id));
+        const index = state.items.findIndex(
+          (item) => String(item.id) === String(action.payload.id),
+        );
         if (index !== -1) {
           state.items[index] = action.payload;
         }
       })
       .addCase(deleteProduct.fulfilled, (state, action) => {
-        state.items = state.items.filter((item) => 
-          String(item.id) !== String(action.payload)
+        state.items = state.items.filter(
+          (item) => String(item.id) !== String(action.payload),
         );
       });
   },

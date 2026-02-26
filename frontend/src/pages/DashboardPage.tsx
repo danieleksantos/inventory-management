@@ -6,10 +6,10 @@ import { OptimizedProduction } from '../components/OptimizedProduction';
 export function DashboardPage() {
   return (
     <div className="animate-in fade-in duration-700 pb-10">
-      <Header 
-        title="Painel de" 
-        highlight="Controle" 
-        subtitle="Monitoramento de Insumos e Inteligência de Produção" 
+      <Header
+        title="Painel de"
+        highlight="Controle"
+        subtitle="Monitoramento de Insumos e Inteligência de Produção"
       />
 
       <div className="space-y-12">
