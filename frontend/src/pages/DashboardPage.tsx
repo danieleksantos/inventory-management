@@ -14,15 +14,15 @@ export function DashboardPage() {
 
       <div className="space-y-12">
         <section className="animate-in slide-in-from-bottom-4 duration-500 delay-75">
-          <ProductsCatalog />
+          <OptimizedProduction />
         </section>
 
         <section className="animate-in slide-in-from-bottom-4 duration-500 delay-150">
-          <RawMaterialsStock />
+          <ProductsCatalog />
         </section>
 
         <section className="pb-10 animate-in slide-in-from-bottom-4 duration-500 delay-300">
-          <OptimizedProduction />
+          <RawMaterialsStock />
         </section>
       </div>
     </div>
