@@ -1,0 +1,27 @@
+# Stage 1: Build
+FROM maven:3.9.6-eclipse-temurin-21-alpine AS build
+WORKDIR /app
+
+# Cache dependências
+COPY pom.xml .
+RUN mvn dependency:go-offline
+
+# Compile
+COPY src ./src
+RUN mvn clean package -DskipTests
+
+# Stage 2: Runtime
+FROM eclipse-temurin:21-jre-alpine
+WORKDIR /app
+
+RUN addgroup -S spring && adduser -S spring -G spring
+USER spring:spring
+
+COPY --from=build /app/target/quarkus-app/lib/ ./lib/
+COPY --from=build /app/target/quarkus-app/*.jar ./app.jar
+COPY --from=build /app/target/quarkus-app/app/ ./app/
+COPY --from=build /app/target/quarkus-app/quarkus/ ./quarkus/
+COPY --from=build /app/src/main/resources/import.sql ./import.sql
+
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "app.jar"]

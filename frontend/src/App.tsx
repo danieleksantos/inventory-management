@@ -3,7 +3,7 @@ import { Sidebar } from './components/Sidebar';
 import { DashboardPage } from './pages/DashboardPage';
 import { ProductsPage } from './pages/ProductsPage';
 import { RawMaterialsPage } from './pages/RawMaterialsPage';
-//import { RecipesPage } from './pages/RecipesPage';
+import { RecipesPage } from './pages/RecipesPage';
 import { useAppDispatch } from './store/hooks';
 import { fetchRawMaterials } from './store/rawMaterialSlice';
 import { fetchProducts } from './store/productSlice';
@@ -20,14 +20,19 @@ export default function App() {
   }, [dispatch]);
 
   const renderPage = () => {
-    switch (activePage) {
-      case 'dashboard': return <DashboardPage />;
-      case 'products': return <ProductsPage />;
-      case 'materials': return <RawMaterialsPage />;
-     // case 'recipes': return <RecipesPage />;
-      default: return <DashboardPage />;
-    }
-  };
+  switch (activePage) {
+    case 'dashboard': 
+      return <DashboardPage />;
+    case 'products': 
+      return <ProductsPage />;
+    case 'materials': 
+      return <RawMaterialsPage />;
+    case 'recipes': 
+      return <RecipesPage />;
+    default: 
+      return <DashboardPage />;
+  }
+};
 
   return (
     <div className="flex min-h-screen bg-[#FDFCFB] font-sans text-inventory-900">

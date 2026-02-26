@@ -3,32 +3,41 @@ import { useAppSelector } from '../store/hooks';
 export function RawMaterialsStock() {
   const { items, loading } = useAppSelector((state) => state.rawMaterials);
 
-  if (loading) return <div className="h-40 bg-inventory-50 animate-pulse rounded-3xl mb-10"></div>;
+  if (loading) return <div className="h-32 bg-inventory-50 animate-pulse rounded-4xl mb-10" />;
 
   return (
     <section className="mb-10">
-      <h2 className="text-xl font-black text-inventory-800 uppercase italic mb-6">Níveis de Estoque</h2>
+        <div className="flex items-center gap-3 mb-6">
+        <div className="w-1.5 h-6 bg-accent-primary rounded-full" />
+        <h2 className="text-sm font-black text-inventory-800 uppercase italic tracking-tighter">
+          Estoque <span className="text-accent-primary">Disponível</span>
+        </h2>
+      </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {items?.map((m) => (
-          <div key={m.id} className="bg-white p-5 rounded-2xl border border-inventory-100 shadow-sm transition-all hover:shadow-md">
-            <div className="flex justify-between items-start mb-2">
-              <h4 className="font-bold text-inventory-500 text-[10px] uppercase tracking-tighter">
+          <div 
+            key={m.id} 
+            className="bg-white p-6 rounded-3xl border border-inventory-100 shadow-sm flex flex-col justify-center min-h-30"
+          >
+            <div className="space-y-1">
+              {/* Nome do Produto: Limpo e sem indicadores */}
+              <p className="text-[9px] font-black text-inventory-300 uppercase tracking-[0.2em]">
+                Insumo
+              </p>
+              <h4 className="text-sm font-black text-inventory-800 uppercase italic tracking-tighter leading-tight truncate">
                 {m.name}
               </h4>
-              <span className="text-[10px] font-bold text-inventory-300 uppercase">
-                unid.
-              </span>
             </div>
-            
-            <p className="text-3xl font-black text-inventory-700 tracking-tighter">
-              {m.stockQuantity}
-            </p>
-            
-            <div className="mt-4 w-full bg-inventory-50 h-1.5 rounded-full overflow-hidden">
-              <div 
-                className="h-full bg-inventory-400 transition-all duration-700"
-                style={{ width: `${Math.min((m.stockQuantity / 200) * 100, 100)}%` }}
-              ></div>
+
+            <div className="mt-4 pt-4 border-t border-inventory-50 flex items-baseline gap-2">
+              {/* Quantidade: O dado principal em destaque */}
+              <span className="text-4xl font-black text-inventory-800 italic tracking-tighter">
+                {m.stockQuantity}
+              </span>
+              <span className="text-[10px] font-black text-inventory-400 uppercase italic">
+                unidades
+              </span>
             </div>
           </div>
         ))}

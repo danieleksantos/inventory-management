@@ -5,7 +5,7 @@ import { OptimizedProduction } from '../components/OptimizedProduction';
 
 export function DashboardPage() {
   return (
-    <div className="animate-in fade-in duration-700">
+    <div className="animate-in fade-in duration-700 pb-10">
       <Header 
         title="Painel de" 
         highlight="Controle" 
@@ -13,14 +13,15 @@ export function DashboardPage() {
       />
 
       <div className="space-y-12">
-        <section>
+        <section className="animate-in slide-in-from-bottom-4 duration-500 delay-75">
           <ProductsCatalog />
         </section>
-        <section>
+
+        <section className="animate-in slide-in-from-bottom-4 duration-500 delay-150">
           <RawMaterialsStock />
         </section>
 
-        <section className="pb-10">
+        <section className="pb-10 animate-in slide-in-from-bottom-4 duration-500 delay-300">
           <OptimizedProduction />
         </section>
       </div>

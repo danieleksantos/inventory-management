@@ -13,7 +13,7 @@ public interface ProductionAPI {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(
-        summary = "Obter sugestões de produção",
+        summary = "Get suggestions fo production",
         description = "Analisa o estoque atual e sugere a produção priorizando produtos de maior valor, listando também o resíduo de matéria-prima."
     )
     ProductionResponseDTO getSuggestions();

@@ -1,30 +1,24 @@
--- 1. Raw Materials
-INSERT INTO RawMaterial (id, name, stockQuantity) VALUES (1, 'Steel', 100.0);
-INSERT INTO RawMaterial (id, name, stockQuantity) VALUES (2, 'Plastic', 50.0);
-INSERT INTO RawMaterial (id, name, stockQuantity) VALUES (3, 'Electronic Components', 30.0);
-
-ALTER SEQUENCE RawMaterial_SEQ RESTART WITH 4;
-
--- 2. Products
-INSERT INTO Product (id, name, price) VALUES (1, 'Car', 50000.00);
-INSERT INTO Product (id, name, price) VALUES (2, 'Bicycle', 1000.00);
-INSERT INTO Product (id, name, price) VALUES (3, 'Smartphone', 2500.00);
-
-ALTER SEQUENCE Product_SEQ RESTART WITH 4;
-
--- 3. Product Composition
-
--- Car: 80 Steel, 10 Plastic
-INSERT INTO ProductComposition (id, product_id, rawMaterial_id, quantityNeeded) VALUES (1, 1, 1, 80.0);
-INSERT INTO ProductComposition (id, product_id, rawMaterial_id, quantityNeeded) VALUES (2, 1, 2, 10.0);
-
--- Smartphone: 1 Steel, 5 Plastic, 10 Electronic Components
-INSERT INTO ProductComposition (id, product_id, rawMaterial_id, quantityNeeded) VALUES (3, 3, 1, 1.0);
-INSERT INTO ProductComposition (id, product_id, rawMaterial_id, quantityNeeded) VALUES (4, 3, 2, 5.0);
-INSERT INTO ProductComposition (id, product_id, rawMaterial_id, quantityNeeded) VALUES (5, 3, 3, 10.0);
-
--- Bicycle: 10 Steel, 5 Plastic
-INSERT INTO ProductComposition (id, product_id, rawMaterial_id, quantityNeeded) VALUES (6, 2, 1, 10.0);
-INSERT INTO ProductComposition (id, product_id, rawMaterial_id, quantityNeeded) VALUES (7, 2, 2, 5.0);
-
-ALTER SEQUENCE ProductComposition_SEQ RESTART WITH 8;
+INSERT INTO RawMaterial (id, name, stockQuantity) VALUES (1, 'Industrial Steel', 500.0);
+INSERT INTO RawMaterial (id, name, stockQuantity) VALUES (2, 'High-Density Plastic', 120.0);
+INSERT INTO RawMaterial (id, name, stockQuantity) VALUES (3, 'Microprocessors', 45.0);
+INSERT INTO RawMaterial (id, name, stockQuantity) VALUES (4, 'Lithium Battery Cells', 200.0);
+INSERT INTO RawMaterial (id, name, stockQuantity) VALUES (5, 'Aluminum Alloy', 80.0);
+ALTER SEQUENCE RawMaterial_SEQ RESTART WITH 6;
+INSERT INTO Product (id, name, price) VALUES (1, 'Luxury Sedan', 85000.00);
+INSERT INTO Product (id, name, price) VALUES (2, 'Mountain Bike Pro', 2500.00);
+INSERT INTO Product (id, name, price) VALUES (3, 'Pro Smartphone X', 4500.00);
+INSERT INTO Product (id, name, price) VALUES (4, 'Electric Scooter', 3200.00);
+ALTER SEQUENCE Product_SEQ RESTART WITH 5;
+INSERT INTO ProductComposition (id, product_id, rawMaterial_id, quantityNeeded) VALUES (1, 1, 1, 350.0);
+INSERT INTO ProductComposition (id, product_id, rawMaterial_id, quantityNeeded) VALUES (2, 1, 2, 40.0);
+INSERT INTO ProductComposition (id, product_id, rawMaterial_id, quantityNeeded) VALUES (3, 1, 3, 15.0);
+INSERT INTO ProductComposition (id, product_id, rawMaterial_id, quantityNeeded) VALUES (4, 3, 1, 0.5);
+INSERT INTO ProductComposition (id, product_id, rawMaterial_id, quantityNeeded) VALUES (5, 3, 2, 2.0);
+INSERT INTO ProductComposition (id, product_id, rawMaterial_id, quantityNeeded) VALUES (6, 3, 3, 8.0);
+INSERT INTO ProductComposition (id, product_id, rawMaterial_id, quantityNeeded) VALUES (7, 3, 4, 1.0);
+INSERT INTO ProductComposition (id, product_id, rawMaterial_id, quantityNeeded) VALUES (8, 2, 5, 12.0);
+INSERT INTO ProductComposition (id, product_id, rawMaterial_id, quantityNeeded) VALUES (9, 2, 2, 5.0);
+INSERT INTO ProductComposition (id, product_id, rawMaterial_id, quantityNeeded) VALUES (10, 4, 5, 8.0);
+INSERT INTO ProductComposition (id, product_id, rawMaterial_id, quantityNeeded) VALUES (11, 4, 3, 4.0);
+INSERT INTO ProductComposition (id, product_id, rawMaterial_id, quantityNeeded) VALUES (12, 4, 4, 2.0);
+ALTER SEQUENCE ProductComposition_SEQ RESTART WITH 13;

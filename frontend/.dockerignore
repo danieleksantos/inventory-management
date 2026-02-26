@@ -1,11 +1,10 @@
-target/
-.mvn/
-mvnw
-mvnw.cmd
+node_modules/
+dist/
+build/
 .git
 .gitignore
 .env
 Dockerfile
 .idea/
 .vscode/
-*.iml
+npm-debug.log*
