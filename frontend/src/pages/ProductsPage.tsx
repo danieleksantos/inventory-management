@@ -140,7 +140,6 @@ export function ProductsPage() {
           </div>
         )}
 
-        {/* VIEW MOBILE: CARDS PREMIUM */}
         <div className="grid grid-cols-1 gap-6 md:hidden">
           {items.map((product) => (
             <div
@@ -184,7 +183,6 @@ export function ProductsPage() {
           ))}
         </div>
 
-        {/* VIEW DESKTOP: TABELA */}
         <div className="hidden md:block bg-white rounded-4xl border border-inventory-100 shadow-sm overflow-hidden">
           <table className="w-full text-left font-bold">
             <thead className="bg-inventory-50 text-xs text-inventory-400 uppercase tracking-widest">

@@ -16,19 +16,36 @@ import java.util.List;
 @Consumes(MediaType.APPLICATION_JSON)
 public class ProductCompositionResource {
 
+    @GET
+    public List<ProductComposition> getAll() {
+        return ProductComposition.listAll();
+    }
+
+
     @POST
     @Transactional
-    public Response addIngredient(ProductCompositionDTO dto) {
-        ProductComposition composition = new ProductComposition();
-        
+    public Response addOrUpdateIngredient(ProductCompositionDTO dto) {
+        ProductComposition existing = ProductComposition.find(
+            "product.id = ?1 and rawMaterial.id = ?2", 
+            dto.productId(), 
+            dto.rawMaterialId()
+        ).firstResult();
+
+        if (existing != null) {
+            existing.quantityNeeded = dto.quantityNeeded();
+            return Response.ok(existing).build();
+        }
+
         Product product = Product.findById(dto.productId());
         RawMaterial material = RawMaterial.findById(dto.rawMaterialId());
 
         if (product == null || material == null) {
             return Response.status(Response.Status.BAD_REQUEST)
-                .entity("Product or Raw Material not found with the provided IDs").build();
+                .entity("Produto ou Matéria-Prima não encontrados")
+                .build();
         }
 
+        ProductComposition composition = new ProductComposition();
         composition.product = product;
         composition.rawMaterial = material;
         composition.quantityNeeded = dto.quantityNeeded();
@@ -36,6 +53,18 @@ public class ProductCompositionResource {
         composition.persist();
         
         return Response.status(Response.Status.CREATED).entity(composition).build();
+    }
+
+
+    @DELETE
+    @Path("/{id}")
+    @Transactional
+    public Response delete(@PathParam("id") Long id) {
+        boolean deleted = ProductComposition.deleteById(id);
+        if (!deleted) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+        return Response.noContent().build();
     }
 
     @GET

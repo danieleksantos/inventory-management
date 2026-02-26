@@ -3,7 +3,7 @@ import {
   LayoutDashboard,
   Package,
   Database,
-  ReceiptText,
+  Library,
   Menu,
   X,
 } from 'lucide-react';
@@ -12,7 +12,7 @@ const menuItems = [
   { icon: LayoutDashboard, label: 'Dashboard', id: 'dashboard' },
   { icon: Package, label: 'Produtos', id: 'products' },
   { icon: Database, label: 'Matéria Prima', id: 'materials' },
-  { icon: ReceiptText, label: 'Receitas', id: 'recipes' },
+  { icon: Library, label: 'Composição', id: 'compositions' },
 ];
 
 interface SidebarProps {
@@ -27,7 +27,9 @@ export function Sidebar({ activePage, setActivePage }: SidebarProps) {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className={`lg:hidden fixed top-6 left-6 z-60 p-3 bg-accent-primary text-white rounded-2xl shadow-lg shadow-accent-primary/30 active:scale-95 transition-all ${isOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
+        className={`lg:hidden fixed top-6 left-6 z-60 p-3 bg-accent-primary text-white rounded-2xl shadow-lg shadow-accent-primary/30 active:scale-95 transition-all ${
+          isOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'
+        }`}
       >
         <Menu size={24} />
       </button>

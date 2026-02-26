@@ -24,7 +24,6 @@ export function RawMaterialsStock() {
             className="bg-white p-6 rounded-3xl border border-inventory-100 shadow-sm flex flex-col justify-center min-h-30"
           >
             <div className="space-y-1">
-              {/* Nome do Produto: Limpo e sem indicadores */}
               <p className="text-[9px] font-black text-inventory-300 uppercase tracking-[0.2em]">
                 Insumo
               </p>
@@ -34,7 +33,6 @@ export function RawMaterialsStock() {
             </div>
 
             <div className="mt-4 pt-4 border-t border-inventory-50 flex items-baseline gap-2">
-              {/* Quantidade: O dado principal em destaque */}
               <span className="text-4xl font-black text-inventory-800 italic tracking-tighter">
                 {m.stockQuantity}
               </span>

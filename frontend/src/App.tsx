@@ -3,7 +3,7 @@ import { Sidebar } from './components/Sidebar';
 import { DashboardPage } from './pages/DashboardPage';
 import { ProductsPage } from './pages/ProductsPage';
 import { RawMaterialsPage } from './pages/RawMaterialsPage';
-import { RecipesPage } from './pages/RecipesPage';
+import { CompositionsPage } from './pages/CompositionsPage';
 import { useAppDispatch } from './store/hooks';
 import { fetchRawMaterials } from './store/rawMaterialSlice';
 import { fetchProducts } from './store/productSlice';
@@ -27,8 +27,8 @@ export default function App() {
         return <ProductsPage />;
       case 'materials':
         return <RawMaterialsPage />;
-      case 'recipes':
-        return <RecipesPage />;
+      case 'compositions':
+        return <CompositionsPage />;
       default:
         return <DashboardPage />;
     }
@@ -37,6 +37,7 @@ export default function App() {
   return (
     <div className="flex min-h-screen bg-[#FDFCFB] font-sans text-inventory-900">
       <Sidebar activePage={activePage} setActivePage={setActivePage} />
+
       <main className="flex-1 p-6 md:p-10 overflow-y-auto">{renderPage()}</main>
     </div>
   );

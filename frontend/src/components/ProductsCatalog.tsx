@@ -3,14 +3,12 @@ import { useAppSelector } from '../store/hooks';
 export function ProductsCatalog() {
   const { items, loading } = useAppSelector((state) => state.products);
 
-  // Skeleton premium com bordas arredondadas sincronizadas
   if (loading) {
     return (
       <div className="h-64 bg-inventory-100/50 animate-pulse rounded-4xl border-2 border-dashed border-inventory-200 mb-10" />
     );
   }
 
-  // Fallback para catálogo vazio
   if (!items || items.length === 0) {
     return (
       <div className="p-12 bg-white rounded-4xl border border-inventory-100 text-center text-inventory-400 font-bold italic uppercase tracking-widest">
@@ -58,7 +56,6 @@ export function ProductsCatalog() {
                 </p>
               </div>
 
-              {/* Badge decorativo industrial */}
               <div className="h-2 w-8 bg-inventory-100 rounded-full mb-2" />
             </div>
           </div>
