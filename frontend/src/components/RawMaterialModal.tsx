@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { X, Trash2 } from 'lucide-react';
 import type { RawMaterial } from '../types/inventory';
 import { Button } from './Button';
@@ -23,13 +24,41 @@ export function RawMaterialModal({
   setFormData,
   isSubmitting,
 }: RawMaterialModalProps) {
+  const [formErrors, setFormErrors] = useState<{
+    name?: string;
+    stock?: string;
+  }>({});
+
+  // Função para fechar limpando os erros locais
+  const handleClose = () => {
+    setFormErrors({});
+    onClose();
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const newErrors: { name?: string; stock?: string } = {};
+
+    if (!formData.name || formData.name.trim() === '') {
+      newErrors.name = 'Campo obrigatório';
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setFormErrors(newErrors);
+      return;
+    }
+
+    setFormErrors({});
+    onSave(e);
+  };
+
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-in fade-in zoom-in duration-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div
         className="absolute inset-0 bg-inventory-900/60 backdrop-blur-sm"
-        onClick={onClose}
+        onClick={handleClose}
       />
 
       <div className="relative bg-white w-full max-w-md rounded-4xl md:rounded-[40px] shadow-2xl overflow-hidden border border-inventory-100">
@@ -39,37 +68,52 @@ export function RawMaterialModal({
               {editingItem ? 'Editar Insumo' : 'Novo Insumo'}
             </h3>
             <button
-              onClick={onClose}
-              className="text-inventory-400 hover:text-inventory-800 cursor-pointer p-2"
+              onClick={handleClose}
+              className="text-inventory-400 hover:text-inventory-800 cursor-pointer p-2 transition-colors"
+              aria-label="Fechar"
             >
               <X size={24} />
             </button>
           </div>
 
-          <form onSubmit={onSave} className="space-y-6">
+          <form onSubmit={handleSubmit} noValidate className="space-y-6">
             <div>
               <label className="text-[10px] font-black uppercase text-inventory-500 ml-1 mb-2 block tracking-widest">
-                Nome
+                Nome do Insumo
               </label>
               <input
                 type="text"
-                required
-                className="w-full bg-inventory-100/50 border-2 border-inventory-100 p-4 rounded-2xl outline-none focus:border-accent-primary focus:bg-white transition-all font-bold text-inventory-800"
+                name="name"
+                data-cy="input-material-name"
+                placeholder="EX: AÇO GALVANIZADO"
+                aria-invalid={!!formErrors.name}
+                className={`w-full bg-inventory-100/50 border-2 p-4 rounded-2xl outline-none transition-all font-bold text-inventory-800 uppercase ${
+                  formErrors.name
+                    ? 'border-red-500 focus:border-red-600'
+                    : 'border-inventory-100 focus:border-accent-primary focus:bg-white'
+                }`}
                 value={formData.name}
-                onChange={(e) =>
-                  setFormData({ ...formData, name: e.target.value })
-                }
+                onChange={(e) => {
+                  setFormData({ ...formData, name: e.target.value });
+                  if (formErrors.name)
+                    setFormErrors({ ...formErrors, name: undefined });
+                }}
               />
+              {formErrors.name && (
+                <span className="text-red-500 text-[10px] font-black mt-1 ml-1 uppercase block">
+                  {formErrors.name}
+                </span>
+              )}
             </div>
 
             <div>
               <label className="text-[10px] font-black uppercase text-inventory-500 ml-1 mb-2 block tracking-widest">
-                Quantidade
+                Quantidade em Estoque
               </label>
               <input
                 type="number"
-                required
-                min="0"
+                name="stockQuantity"
+                data-cy="input-material-quantity"
                 placeholder="0"
                 className="w-full bg-inventory-100/50 border-2 border-inventory-100 p-4 rounded-2xl outline-none focus:border-accent-primary focus:bg-white transition-all font-bold text-inventory-800"
                 value={
@@ -88,20 +132,22 @@ export function RawMaterialModal({
 
             <div className="pt-6 md:pt-8 flex flex-col gap-4">
               <Button
+                type="submit"
                 variant={editingItem ? 'secondary' : 'primary'}
                 loading={isSubmitting}
-                className="w-full py-5"
+                className="w-full py-5 rounded-2xl"
               >
                 {editingItem ? 'Confirmar Alterações' : 'Salvar Novo Insumo'}
               </Button>
 
               {editingItem && (
                 <Button
+                  type="button"
                   variant="danger"
                   icon={Trash2}
                   onClick={onDelete}
-                  loading={isSubmitting}
-                  className="w-full py-4"
+                  disabled={isSubmitting}
+                  className="w-full py-4 rounded-2xl"
                 >
                   Excluir Insumo
                 </Button>

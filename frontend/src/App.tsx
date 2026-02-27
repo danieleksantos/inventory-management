@@ -8,17 +8,26 @@ import { useAppDispatch } from './store/hooks';
 import { fetchRawMaterials } from './store/rawMaterialSlice';
 import { fetchProducts } from './store/productSlice';
 import { fetchSuggestions } from './store/productionSlice';
+import { Toast } from './utils/alerts';
 
 export default function App() {
   const [activePage, setActivePage] = useState('dashboard');
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchRawMaterials());
-    dispatch(fetchProducts());
-    dispatch(fetchSuggestions());
+    const loadData = async () => {
+      try {
+        await Promise.all([
+          dispatch(fetchRawMaterials()).unwrap(),
+          dispatch(fetchProducts()).unwrap(),
+          dispatch(fetchSuggestions()).unwrap(),
+        ]);
+      } catch {
+        Toast.fire({ icon: 'error', title: 'ERRO AO CARREGAR DADOS' });
+      }
+    };
+    loadData();
   }, [dispatch]);
-
   const renderPage = () => {
     switch (activePage) {
       case 'dashboard':

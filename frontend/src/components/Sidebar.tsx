@@ -27,6 +27,8 @@ export function Sidebar({ activePage, setActivePage }: SidebarProps) {
     <>
       <button
         onClick={() => setIsOpen(true)}
+        aria-label="Abrir menu"
+        aria-expanded={isOpen}
         className={`lg:hidden fixed top-6 left-6 z-60 p-3 bg-accent-primary text-white rounded-2xl shadow-lg shadow-accent-primary/30 active:scale-95 transition-all ${
           isOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'
         }`}
@@ -36,24 +38,27 @@ export function Sidebar({ activePage, setActivePage }: SidebarProps) {
 
       {isOpen && (
         <div
+          role="presentation"
           className="fixed inset-0 bg-inventory-900/40 backdrop-blur-sm z-70 lg:hidden"
           onClick={() => setIsOpen(false)}
         />
       )}
 
       <aside
+        role="navigation"
+        aria-label="Menu Principal"
         className={`
-        fixed lg:static inset-y-0 left-0 z-80 w-72 bg-white border-r border-inventory-100 
-        transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} 
-        lg:translate-x-0 transition-all duration-300 ease-in-out flex flex-col shadow-2xl lg:shadow-none
-      `}
+          fixed lg:static inset-y-0 left-0 z-80 w-72 bg-white border-r border-inventory-100 
+          transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} 
+          lg:translate-x-0 transition-all duration-300 ease-in-out flex flex-col shadow-2xl lg:shadow-none
+        `}
       >
         <div className="p-8 border-b border-inventory-50">
           <div className="flex items-center justify-between">
             <div className="flex flex-col gap-1">
               <img
                 src="/logo.png"
-                alt="Logo"
+                alt="Smart Inventory Logo"
                 className="h-10 w-auto object-contain self-start"
               />
               <div className="mt-2">
@@ -68,6 +73,7 @@ export function Sidebar({ activePage, setActivePage }: SidebarProps) {
 
             <button
               onClick={() => setIsOpen(false)}
+              aria-label="Fechar menu"
               className="lg:hidden p-2 -mr-2 text-inventory-400 hover:text-accent-primary transition-colors cursor-pointer"
             >
               <X size={28} strokeWidth={3} />
@@ -81,6 +87,8 @@ export function Sidebar({ activePage, setActivePage }: SidebarProps) {
             return (
               <button
                 key={item.id}
+                role="menuitem"
+                aria-current={isActive ? 'page' : undefined}
                 onClick={() => {
                   setActivePage(item.id);
                   setIsOpen(false);

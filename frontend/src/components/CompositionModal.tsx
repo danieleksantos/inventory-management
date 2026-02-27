@@ -262,6 +262,7 @@ export function CompositionModal({
                       </div>
                       <div className="flex justify-center pt-3 border-t border-inventory-100/50">
                         <Button
+                          type="button"
                           variant="danger"
                           icon={Trash2}
                           onClick={() => handleLocalRemove(item.id!)}

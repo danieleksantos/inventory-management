@@ -26,7 +26,7 @@ export function ProductModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-80 flex items-center justify-center p-4 animate-in fade-in zoom-in duration-200">
+    <div className="fixed inset-0 z-80 flex items-center justify-center p-4">
       <div
         className="absolute inset-0 bg-inventory-900/60 backdrop-blur-sm"
         onClick={onClose}
@@ -53,6 +53,7 @@ export function ProductModal({
               </label>
               <input
                 type="text"
+                name="productName"
                 required
                 placeholder="EX: PRODUTO FINAL"
                 className="w-full bg-inventory-100/50 border-2 border-inventory-100 p-4 rounded-2xl outline-none focus:border-accent-primary focus:bg-white transition-all font-bold text-inventory-800 uppercase wrap-break-word"
@@ -69,6 +70,7 @@ export function ProductModal({
               </label>
               <input
                 type="number"
+                name="productPrice"
                 required
                 step="0.01"
                 min="0"

@@ -124,7 +124,10 @@ export function RawMaterialsPage() {
 
       <div className="relative">
         {loading && (
-          <div className="absolute inset-0 bg-white/60 z-10 flex items-center justify-center rounded-4xl">
+          <div
+            className="absolute inset-0 bg-white/60 z-10 flex items-center justify-center rounded-4xl"
+            data-testid="skeleton-loader"
+          >
             <Loader2 className="animate-spin text-accent-primary" />
           </div>
         )}
