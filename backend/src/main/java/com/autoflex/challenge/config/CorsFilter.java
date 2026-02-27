@@ -12,7 +12,14 @@ public class CorsFilter implements ContainerResponseFilter {
 
     @Override
     public void filter(ContainerRequestContext requestContext, ContainerResponseContext responseContext) throws IOException {
-        responseContext.getHeaders().add("Access-Control-Allow-Origin", "*"); 
+        String origin = requestContext.getHeaderString("Origin");
+        
+        if (origin != null && (origin.equals("https://inventory-management-lac-rho.vercel.app") || 
+            origin.startsWith("http://localhost"))) {
+            
+            responseContext.getHeaders().add("Access-Control-Allow-Origin", origin);
+        }
+
         responseContext.getHeaders().add("Access-Control-Allow-Credentials", "true");
         responseContext.getHeaders().add("Access-Control-Allow-Headers", "origin, content-type, accept, authorization, x-requested-with");
         responseContext.getHeaders().add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS, HEAD");
