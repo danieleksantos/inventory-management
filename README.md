@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="/logo.png" alt="Smart Inventory Logo" width="100"/>
+  <img src="https://github.com/user-attachments/assets/dc3043f3-26ea-4240-ba01-62c6a5a85ed0" alt="Smart Inventory Logo" width="100"/>
 
   # Smart Inventory Management - Gestão Inteligente de Produção
 
