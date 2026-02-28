@@ -140,11 +140,25 @@ npm install
 npm run dev
 ```
 
-##🧪 Homologação e Testes
-O projeto conta com uma suíte de testes automatizados para garantir a confiabilidade das regras de negócio.
+## Homologação e Testes
+O projeto conta com uma suíte de testes automatizados que cobre desde a interface do usuário até as regras de negócio mais profundas do servidor.
 
-### Testes E2E (Cypress)
-Você pode rodar os testes contra o ambiente local ou diretamente contra o deploy de produção:
+### 1. Back-end (JUnit 5, RestAssured & PanacheMock)
+A camada de serviços e os endpoints da API são validados por testes que garantem a resiliência do sistema.
+
+- Testes de Integração: Validam o ciclo completo de vida (CRUD) e o contrato JSON dos endpoints, garantindo que a API responda conforme o esperado.
+- Testes de Unidade: Focam na inteligência do ProductionService, simulando cenários reais como:
+  - Priorização de Valor: Garante que itens caros tenham precedência sobre itens baratos na disputa por insumos.
+  - Cálculo de Gargalo (Bottleneck): Valida se o sistema identifica corretamente qual insumo limita a produção máxima.
+  - Tratamento de Exceções: Verifica o comportamento do sistema com estoques zerados ou composições ausentes.
+```bash
+cd backend
+./mvnw test
+```
+
+### 2. Front-end (Cypress E2E)
+Os testes de ponta a ponta validam o fluxo do usuário na interface, garantindo que a experiência seja fluida em diferentes ambientes.:
+
 ```bash
 cd frontend
 
