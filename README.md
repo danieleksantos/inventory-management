@@ -46,6 +46,11 @@ O projeto foi construído seguindo os princípios SOLID e Clean Code, garantindo
 - Business Logic: O core da aplicação reside no ProductionService, onde foi implementado o algoritmo de otimização que calcula a viabilidade de produção baseada no estoque e prioriza itens de maior valor agregado.
 - Persistência: Uso de Hibernate com Panache para uma escrita de código mais fluida e produtiva.
 
+#### Documentação da API (Swagger)
+Para facilitar o consumo da API e os testes de integração, o projeto conta com documentação automatizada via Swagger/OpenAPI.
+- Interface Interativa: Através do Swagger UI, é possível testar todos os endpoints (GET, POST, PUT, DELETE) em tempo real, visualizando os schemas de entrada e saída.
+- Acesso: [https://inventory-management-5vev.onrender.com/q/swagger-ui//](https://inventory-management-5vev.onrender.com/q/swagger-ui/)
+
 ### Front-end (React)
 - Gerenciamento de Estado: Redux Toolkit para um fluxo de dados previsível e centralizado.
 - Componentização: UI modularizada para reaproveitamento, utilizando Tailwind CSS para garantir um design system consistente e responsivo.
@@ -55,7 +60,7 @@ O projeto foi construído seguindo os princípios SOLID e Clean Code, garantindo
 O sistema utiliza um banco de dados relacional para gerenciar a complexidade da manufatura, garantindo integridade entre o que está em estoque e o que pode ser vendido otimizando a produção e o lucro.
 
 ### Entidades do Sistema (ERD)
-
+```mermaid
 erDiagram
     Product {
         int id PK
@@ -76,6 +81,7 @@ erDiagram
 
     Product ||--o{ ProductComposition : "has_composition"
     RawMaterial ||--o{ ProductComposition : "used_in"
+  ```
     
 - Raw Material (RawMaterial): Representa os insumos básicos.
   - Exemplo: Industrial Steel, Microprocessors, Lithium Battery Cells.
@@ -164,7 +170,8 @@ A interface foi projetada para ser intuitiva, focando na eficiência operacional
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/2073928b-b430-4048-a431-f0f6804ef74e" alt="Mobile" width="200" />
-  &nbsp;&nbsp;&nbsp;&nbsp;
+  <br>
+  <br>
   <img src="https://github.com/user-attachments/assets/bfc75f40-8aec-4779-92c2-c02dea9de6fc" alt="Mobile Menu" width="200" />
 </p>
 
