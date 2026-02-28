@@ -43,7 +43,8 @@ O projeto foi construído seguindo os princípios SOLID e Clean Code, garantindo
 
 ### Back-end (Quarkus)
 - Padrão de Camadas: Organizado em Resources (Controladores), Services (Regras de Negócio), Models (Entidades/JPA) e DTOs (Data Transfer Objects) para garantir o desacoplamento.
-- Business Logic: O core da aplicação reside no ProductionService, onde foi implementado o algoritmo de otimização que calcula a viabilidade de produção baseada no estoque e prioriza itens de maior valor agregado.
+- Business Logic: O core da aplicação reside no ProductionService, onde foi implementado um Greedy Algorithm (Algoritmo Guloso) para otimização de produção.
+  - Performance & Escalabilidade: O algoritmo foi desenhado para ser altamente eficiente, operando com complexidade de tempo $O(P \log P + M + C)$ (onde $P$ = Produtos, $M$ = Materiais e $C$ = Composições). Isso garante que o cálculo de sugestões e sobras seja praticamente instantâneo, mesmo em cenários de inventários volumosos.Persistência: Uso de Hibernate com Panache para uma escrita de código mais fluida e produtiva.
 - Persistência: Uso de Hibernate com Panache para uma escrita de código mais fluida e produtiva.
 
 #### Documentação da API (Swagger)
@@ -57,7 +58,7 @@ Para facilitar o consumo da API e os testes de integração, o projeto conta com
 - Type Safety: Uso rigoroso de TypeScript para interfaces e tipos, minimizando erros em tempo de execução.
 
 ## Modelagem de Dados e Regras de Negócio
-O sistema utiliza um banco de dados relacional para gerenciar a complexidade da manufatura, garantindo integridade entre o que está em estoque e o que pode ser vendido otimizando a produção e o lucro.
+O sistema utiliza um banco de dados relacional para gerenciar a complexidade da manufatura, garantindo integridade entre o que está em estoque e o que pode ser vendido, otimizando a produção e o lucro.
 
 ### Entidades do Sistema (ERD)
 ```mermaid
@@ -100,7 +101,7 @@ O projeto atende a demanda principal que é o Algoritmo de Priorização de Prod
 1. O sistema mapeia todos os produtos e suas composições.
 2. Analisa o estoque atual de cada RawMaterial.
 3. Priorização por Valor: O sistema prioriza a produção de itens com maior price (Valor Agregado), garantindo que a indústria utilize seus insumos limitados para maximizar o faturamento.
-4. Além da sugestão otimizada o sistema também faz um rastreamento de sobras de insumos para gerar insights de criação de novos produtos para utilizar sobras ou investimesmos mais precisos para aumento de faturamento da fábrica.
+4. Além da sugestão otimizada o sistema também faz um rastreamento de sobras de insumos para gerar insights de criação de novos produtos para utilizar sobras ou investimentos mais precisos para aumento de faturamento da fábrica.
   
 ## Tecnologias Utilizadas
 
