@@ -38,6 +38,64 @@ O Smart Inventory é uma plataforma robusta desenvolvida para indústrias que ne
 - **Mobile-First:** Design totalmente responsivo para consulta de inventário e sugestões de produção em qualquer dispositivo.
 - **Segurança:** Política de CORS dinâmica configurada para proteção da API em produção.
 
+## Arquitetura de Software
+O projeto foi construído seguindo os princípios SOLID e Clean Code, garantindo que a aplicação seja escalável e de fácil manutenção.
+
+### Back-end (Quarkus)
+- Padrão de Camadas: Organizado em Resources (Controladores), Services (Regras de Negócio), Models (Entidades/JPA) e DTOs (Data Transfer Objects) para garantir o desacoplamento.
+- Business Logic: O core da aplicação reside no ProductionService, onde foi implementado o algoritmo de otimização que calcula a viabilidade de produção baseada no estoque e prioriza itens de maior valor agregado.
+- Persistência: Uso de Hibernate com Panache para uma escrita de código mais fluida e produtiva.
+
+### Front-end (React)
+- Gerenciamento de Estado: Redux Toolkit para um fluxo de dados previsível e centralizado.
+- Componentização: UI modularizada para reaproveitamento, utilizando Tailwind CSS para garantir um design system consistente e responsivo.
+- Type Safety: Uso rigoroso de TypeScript para interfaces e tipos, minimizando erros em tempo de execução.
+
+## Modelagem de Dados e Regras de Negócio
+O sistema utiliza um banco de dados relacional para gerenciar a complexidade da manufatura, garantindo integridade entre o que está em estoque e o que pode ser vendido otimizando a produção e o lucro.
+
+### Entidades do Sistema (ERD)
+
+erDiagram
+    Product {
+        int id PK
+        string name
+        float price
+    }
+    RawMaterial {
+        int id PK
+        string name
+        float stockQuantity
+    }
+    ProductComposition {
+        int id PK
+        int product_id FK
+        int rawMaterial_id FK
+        float quantityNeeded
+    }
+
+    Product ||--o{ ProductComposition : "has_composition"
+    RawMaterial ||--o{ ProductComposition : "used_in"
+    
+- Raw Material (RawMaterial): Representa os insumos básicos.
+  - Exemplo: Industrial Steel, Microprocessors, Lithium Battery Cells.
+  - Atributos principais: name, stockQuantity.
+    
+- Product (Product): Itens finais produzidos pela indústria.
+  - Exemplo: Luxury Sedan ($85k), Professional Drone ($12k).
+  - Atributos principais: name, price.
+
+- Composition (ProductComposition): A "receita" do produto. Define a relação N:N entre produtos e insumos.
+  - Atributos principais: quantityNeeded, product_id, rawMaterial_id.
+ 
+### Inteligência de Otimização
+O projeto atende a demanda principal que é o Algoritmo de Priorização de Produção demonstrando no dashboard a sugestão de fabricação otimizada:
+
+1. O sistema mapeia todos os produtos e suas composições.
+2. Analisa o estoque atual de cada RawMaterial.
+3. Priorização por Valor: O sistema prioriza a produção de itens com maior price (Valor Agregado), garantindo que a indústria utilize seus insumos limitados para maximizar o faturamento.
+4. Além da sugestão otimizada o sistema também faz um rastreamento de sobras de insumos para gerar insights de criação de novos produtos para utilizar sobras ou investimesmos mais precisos para aumento de faturamento da fábrica.
+  
 ## Tecnologias Utilizadas
 
 - **Frontend:** React.js, TypeScript, Tailwind CSS, Redux Toolkit, Axios.
@@ -90,12 +148,25 @@ npm run test:prod
 npm run test:local
 ```
 
-## Arquitetura e Boas Práticas
+## Interface e Experiência do Usuário (UX)
+A interface foi projetada para ser intuitiva, focando na eficiência operacional da indústria.
 
-- SOLID & Clean Code: Separação clara de responsabilidades entre Services, Resources e Repositories.
-- Idioma: Toda a codificação, tabelas e colunas do banco de dados desenvolvidas em Inglês.
-- Acessibilidade: Uso de ARIA labels e feedbacks visuais para garantir uma experiência inclusiva.
-- Uso de Mocks: Testes E2E preparados para rodar com dados reais ou intercepts, garantindo resiliência.
+### Demonstração
+<p align="center"> 
+<img src="https://github.com/user-attachments/assets/49b515e9-fbef-429b-a987-f9ce5ec81150" alt="Dashboard e Sugestão de Matéria Prima" width="800px" />
+</p>
+
+### Acessibilidade e Design Responsivo
+- Mobile-First: A aplicação foi desenvolvida com Tailwind CSS garantindo que o controle de estoque possa ser feito de um tablet ou smartphone no chão de fábrica.
+- Navegação Semântica: Uso de tags HTML5 semânticas (main, section, nav, header) para melhor leitura por tecnologias assistivas.
+- Contraste e Feedback: Cores validadas para alto contraste e feedbacks visuais claros (toasts de sucesso/erro) após cada operação CRUD.
+- Aria-labels: Elementos interativos possuem rótulos descritivos para leitores de tela.
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/2073928b-b430-4048-a431-f0f6804ef74e" alt="Mobile" width="200" />
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="https://github.com/user-attachments/assets/bfc75f40-8aec-4779-92c2-c02dea9de6fc" alt="Mobile Menu" width="200" />
+</p>
 
 <br />
 
