@@ -169,10 +169,9 @@ A interface foi projetada para ser intuitiva, focando na eficiência operacional
 - Aria-labels: Elementos interativos possuem rótulos descritivos para leitores de tela.
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/2073928b-b430-4048-a431-f0f6804ef74e" alt="Mobile" width="200" />
-  <br>
-  <br>
-  <img src="https://github.com/user-attachments/assets/bfc75f40-8aec-4779-92c2-c02dea9de6fc" alt="Mobile Menu" width="200" />
+  <img src="https://github.com/user-attachments/assets/4db92abf-886d-4e03-a016-b97481299721" alt="Mobile Menu" width="200" />
+  &nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="https://github.com/user-attachments/assets/62cda03e-21d9-4051-8805-69b35f5a6517" alt="Mobile Hotels" width="200" />
 </p>
 
 <br />
