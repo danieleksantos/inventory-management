@@ -44,7 +44,7 @@ O projeto foi construído seguindo os princípios SOLID e Clean Code, garantindo
 ### Back-end (Quarkus)
 - Padrão de Camadas: Organizado em Resources (Controladores), Services (Regras de Negócio), Models (Entidades/JPA) e DTOs (Data Transfer Objects) para garantir o desacoplamento.
 - Business Logic: O core da aplicação reside no ProductionService, onde foi implementado um Greedy Algorithm (Algoritmo Guloso) para otimização de produção.
-  - Performance & Escalabilidade: O algoritmo foi desenhado para ser altamente eficiente, operando com complexidade de tempo $O(P \log P + M + C)$ (onde $P$ = Produtos, $M$ = Materiais e $C$ = Composições). Isso garante que o cálculo de sugestões e sobras seja praticamente instantâneo, mesmo em cenários de inventários volumosos.Persistência: Uso de Hibernate com Panache para uma escrita de código mais fluida e produtiva.
+  - Performance & Escalabilidade: O algoritmo foi desenhado para ser altamente eficiente, operando com complexidade de tempo $O(P  \log  P + M + C)$ (onde $P$ = Produtos, $M$ = Materiais e $C$ = Composições). Isso garante que o cálculo de sugestões e sobras seja praticamente instantâneo, mesmo em cenários de inventários volumosos.Persistência: Uso de Hibernate com Panache para uma escrita de código mais fluida e produtiva.
 - Persistência: Uso de Hibernate com Panache para uma escrita de código mais fluida e produtiva.
 
 #### Documentação da API (Swagger)
