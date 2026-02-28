@@ -141,24 +141,33 @@ npm run dev
 ```
 
 ## Homologação e Testes
-O projeto conta com uma suíte de testes automatizados que cobre desde a interface do usuário até as regras de negócio mais profundas do servidor.
+O projeto conta com uma cobertura completa de testes para garantir que a aplicação seja resiliente a falhas e inclusiva para todos os usuários.
 
 ### 1. Back-end (JUnit 5, RestAssured & PanacheMock)
-A camada de serviços e os endpoints da API são validados por testes que garantem a resiliência do sistema.
+A camada de serviços e os endpoints da API são validados por testes que garantem a resiliência do sistema:
 
 - Testes de Integração: Validam o ciclo completo de vida (CRUD) e o contrato JSON dos endpoints, garantindo que a API responda conforme o esperado.
 - Testes de Unidade: Focam na inteligência do ProductionService, simulando cenários reais como:
   - Priorização de Valor: Garante que itens caros tenham precedência sobre itens baratos na disputa por insumos.
   - Cálculo de Gargalo (Bottleneck): Valida se o sistema identifica corretamente qual insumo limita a produção máxima.
   - Tratamento de Exceções: Verifica o comportamento do sistema com estoques zerados ou composições ausentes.
+    
+#### Como testar    
 ```bash
 cd backend
 ./mvnw test
 ```
 
 ### 2. Front-end (Cypress E2E)
-Os testes de ponta a ponta validam o fluxo do usuário na interface, garantindo que a experiência seja fluida em diferentes ambientes.:
+Os testes de ponta a ponta validam a jornada do usuário e a robustez da interface:
 
+- Acessibilidade (A11y): Validação de estados de erro via aria-invalid, uso de aria-labels em elementos interativos e navegação semântica por roles.
+- Experiência do Usuário (UX): Teste de perceived performance garantindo que os Skeleton Loaders sejam exibidos corretamente durante respostas lentas da API.
+- Resiliência: Simulação de falhas críticas no servidor (Status 500) para garantir que o usuário receba feedbacks de erro claros em vez de uma tela em branco.
+- Layout Responsivo: Testes automatizados mudando o viewport para dispositivos móveis (ex: iPhone XR), garantindo que a barra de navegação e o menu lateral funcionem perfeitamente no toque.
+- Lógica de Negócio Visual: Verificação da formatação de moeda em PT-BR e do cálculo de Receita Estimada no Dashboard.
+
+#### Como testar    
 ```bash
 cd frontend
 
