@@ -44,13 +44,13 @@ O projeto foi construído seguindo os princípios SOLID e Clean Code, garantindo
 ### Back-end (Quarkus)
 - Padrão de Camadas: Organizado em Resources (Controladores), Services (Regras de Negócio), Models (Entidades/JPA) e DTOs (Data Transfer Objects) para garantir o desacoplamento.
 - Business Logic: O core da aplicação reside no ProductionService, onde foi implementado um Greedy Algorithm (Algoritmo Guloso) para otimização de produção.
-  - Performance & Escalabilidade: O algoritmo foi desenhado para ser altamente eficiente, operando com complexidade de tempo $O(P  \log  P + M + C)$ (onde $P$ = Produtos, $M$ = Materiais e $C$ = Composições). Isso garante que o cálculo de sugestões e sobras seja praticamente instantâneo, mesmo em cenários de inventários volumosos.Persistência: Uso de Hibernate com Panache para uma escrita de código mais fluida e produtiva.
+  - Performance & Escalabilidade: O algoritmo foi desenhado para ser altamente eficiente, operando com complexidade de tempo $O(P  \log  P + M + C)$ (onde $P$ = Produtos, $M$ = Materiais e $C$ = Composições). Isso garante que o cálculo de sugestões e sobras seja praticamente instantâneo, mesmo em cenários de inventários volumosos.
 - Persistência: Uso de Hibernate com Panache para uma escrita de código mais fluida e produtiva.
 
 #### Documentação da API (Swagger)
 Para facilitar o consumo da API e os testes de integração, o projeto conta com documentação automatizada via Swagger/OpenAPI.
 - Interface Interativa: Através do Swagger UI, é possível testar todos os endpoints (GET, POST, PUT, DELETE) em tempo real, visualizando os schemas de entrada e saída.
-- Acesso: [https://inventory-management-5vev.onrender.com/q/swagger-ui//](https://inventory-management-5vev.onrender.com/q/swagger-ui/)
+- Acesso: [https://inventory-management-5vev.onrender.com/q/swagger-ui/](https://inventory-management-5vev.onrender.com/q/swagger-ui/)
 
 ### Front-end (React)
 - Gerenciamento de Estado: Redux Toolkit para um fluxo de dados previsível e centralizado.
@@ -82,7 +82,7 @@ erDiagram
 
     Product ||--o{ ProductComposition : "has_composition"
     RawMaterial ||--o{ ProductComposition : "used_in"
-  ```
+ ```
     
 - Raw Material (RawMaterial): Representa os insumos básicos.
   - Exemplo: Industrial Steel, Microprocessors, Lithium Battery Cells.
