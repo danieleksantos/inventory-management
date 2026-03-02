@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Header } from '../components/Header';
 import { CompositionModal } from '../components/CompositionModal';
 import { Button } from '../components/Button';
@@ -7,6 +7,7 @@ import { Plus, Edit3, Loader2, Package, Beaker } from 'lucide-react';
 import { fetchCompositions } from '../store/productCompositionSlice';
 import { fetchProducts } from '../store/productSlice';
 import { fetchRawMaterials } from '../store/rawMaterialSlice';
+import { Toast } from '../utils/alerts';
 import type { ProductComposition } from '../types/inventory';
 
 export function CompositionsPage() {
@@ -23,11 +24,25 @@ export function CompositionsPage() {
     null,
   );
 
-  useEffect(() => {
-    dispatch(fetchProducts());
-    dispatch(fetchRawMaterials());
-    dispatch(fetchCompositions());
+  const loadData = useCallback(async () => {
+    try {
+      await Promise.all([
+        dispatch(fetchProducts()).unwrap(),
+        dispatch(fetchRawMaterials()).unwrap(),
+        dispatch(fetchCompositions()).unwrap(),
+      ]);
+    } catch (error) {
+      console.error('Erro ao carregar dados de composição:', error);
+      Toast.fire({
+        icon: 'error',
+        title: 'ERRO AO CARREGAR DADOS',
+      });
+    }
   }, [dispatch]);
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
 
   const groupedCompositions = compositions.reduce(
     (acc, curr) => {
@@ -73,20 +88,23 @@ export function CompositionsPage() {
         </Button>
       </div>
 
-      <div className="relative">
+      <div className="relative min-h-100">
         {loadingComp && (
-          <div className="absolute inset-0 bg-white/50 z-10 flex justify-center p-12">
+          <div
+            className="absolute inset-0 bg-white/60 z-10 flex justify-center items-start pt-20 backdrop-blur-[2px]"
+            data-testid="loading-overlay"
+          >
             <Loader2 className="animate-spin text-accent-primary" size={40} />
           </div>
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {Object.entries(groupedCompositions).map(([productId, group]) => (
-            <div
+            <article
               key={productId}
-              className="bg-white rounded-[40px] border border-inventory-100 shadow-sm overflow-hidden flex flex-col transition-all hover:shadow-xl hover:shadow-accent-primary/5"
+              className="bg-white rounded-[40px] border border-inventory-100 shadow-sm overflow-hidden flex flex-col transition-all hover:shadow-xl hover:shadow-accent-primary/5 group"
             >
-              <div className="bg-inventory-50 p-8 border-b border-inventory-100 flex-none">
+              <div className="bg-inventory-50 p-8 border-b border-inventory-100 flex-none group-hover:bg-inventory-100/50 transition-colors">
                 <div className="flex items-center gap-3 mb-2">
                   <Package className="text-accent-primary" size={18} />
                   <span className="text-[10px] font-black text-inventory-400 uppercase tracking-widest">
@@ -133,7 +151,7 @@ export function CompositionsPage() {
                   </Button>
                 </div>
               </div>
-            </div>
+            </article>
           ))}
         </div>
 

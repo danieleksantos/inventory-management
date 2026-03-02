@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Swal from 'sweetalert2';
 import { Header } from '../components/Header';
 import { RawMaterialModal } from '../components/RawMaterialModal';
@@ -22,9 +22,21 @@ export function RawMaterialsPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({ name: '', stockQuantity: 0 });
 
-  useEffect(() => {
-    dispatch(fetchRawMaterials());
+  const loadInitialData = useCallback(async () => {
+    try {
+      await dispatch(fetchRawMaterials()).unwrap();
+    } catch (error) {
+      console.error('Erro ao buscar insumos:', error);
+      Toast.fire({
+        icon: 'error',
+        title: 'ERRO AO CARREGAR DADOS',
+      });
+    }
   }, [dispatch]);
+
+  useEffect(() => {
+    loadInitialData();
+  }, [loadInitialData]);
 
   const handleOpenCreate = () => {
     setEditingItem(null);
@@ -44,16 +56,16 @@ export function RawMaterialsPage() {
     try {
       if (editingItem?.id) {
         await rawMaterialService.update(editingItem.id, formData);
-        Toast.fire({ icon: 'success', title: 'Insumo atualizado!' });
+        Toast.fire({ icon: 'success', title: 'INSUMO ATUALIZADO!' });
       } else {
         await rawMaterialService.create(formData);
-        Toast.fire({ icon: 'success', title: 'Insumo cadastrado!' });
+        Toast.fire({ icon: 'success', title: 'INSUMO CADASTRADO!' });
       }
-      dispatch(fetchRawMaterials());
+      await loadInitialData();
       setIsModalOpen(false);
     } catch (error) {
       console.error(error);
-      Toast.fire({ icon: 'error', title: 'Falha ao processar solicitação' });
+      Toast.fire({ icon: 'error', title: 'FALHA AO PROCESSAR SOLICITAÇÃO' });
     } finally {
       setIsSubmitting(false);
     }
@@ -90,10 +102,10 @@ export function RawMaterialsPage() {
       setIsSubmitting(true);
       try {
         await dispatch(deleteRawMaterial(editingItem.id)).unwrap();
-        Toast.fire({ icon: 'success', title: 'Excluído com sucesso!' });
+        Toast.fire({ icon: 'success', title: 'EXCLUÍDO COM SUCESSO!' });
       } catch (error) {
         console.error(error);
-        Toast.fire({ icon: 'error', title: 'Erro: Item em uso.' });
+        Toast.fire({ icon: 'error', title: 'ERRO: ITEM EM USO.' });
         setIsModalOpen(true);
       } finally {
         setIsSubmitting(false);
@@ -122,21 +134,21 @@ export function RawMaterialsPage() {
         </Button>
       </div>
 
-      <div className="relative">
+      <div className="relative min-h-100">
         {loading && (
           <div
-            className="absolute inset-0 bg-white/60 z-10 flex items-center justify-center rounded-4xl"
+            className="absolute inset-0 bg-white/60 z-10 flex items-center justify-center rounded-4xl backdrop-blur-[2px]"
             data-testid="skeleton-loader"
           >
-            <Loader2 className="animate-spin text-accent-primary" />
+            <Loader2 className="animate-spin text-accent-primary" size={32} />
           </div>
         )}
 
         <div className="grid grid-cols-1 gap-6 md:hidden">
           {items.map((item) => (
-            <div
+            <article
               key={item.id}
-              className="bg-white rounded-4xl border border-inventory-100 shadow-sm overflow-hidden flex flex-col"
+              className="bg-white rounded-4xl border border-inventory-100 shadow-sm overflow-hidden flex flex-col hover:border-accent-primary/30 transition-colors"
             >
               <div className="p-8 flex flex-col gap-5">
                 <div className="space-y-1">
@@ -165,18 +177,18 @@ export function RawMaterialsPage() {
                     variant="secondary"
                     icon={Edit3}
                     onClick={() => handleOpenEdit(item)}
-                    className="py-3! px-5! text-[10px]! rounded-2xl! shadow-lg shadow-accent-primary/10 transition-transform active:scale-95"
+                    className="py-3! px-5! text-[10px]! rounded-2xl! shadow-lg shadow-accent-primary/10"
                   >
                     Editar
                   </Button>
                 </div>
               </div>
-            </div>
+            </article>
           ))}
         </div>
 
         <div className="hidden md:block bg-white rounded-4xl border border-inventory-100 shadow-sm overflow-hidden">
-          <table className="w-full text-left font-bold">
+          <table className="w-full text-left font-bold" role="table">
             <thead className="bg-inventory-50 text-xs text-inventory-400 uppercase tracking-widest">
               <tr>
                 <th className="px-8 py-5">Insumo</th>
@@ -188,14 +200,14 @@ export function RawMaterialsPage() {
               {items.map((item) => (
                 <tr
                   key={item.id}
-                  className="hover:bg-inventory-50/10 transition-colors"
+                  className="hover:bg-inventory-50/10 transition-colors group"
                 >
                   <td className="px-8 py-4 text-inventory-800 font-black">
                     {item.name}
                   </td>
-                  <td className="px-8 py-4 text-center text-inventory-600">
+                  <td className="px-8 py-4 text-center text-inventory-600 font-black italic">
                     {item.stockQuantity}{' '}
-                    <span className="text-[10px] text-inventory-400 ml-1">
+                    <span className="text-[10px] text-inventory-400 ml-1 not-italic">
                       unid.
                     </span>
                   </td>
@@ -204,7 +216,7 @@ export function RawMaterialsPage() {
                       variant="secondary"
                       icon={Edit3}
                       onClick={() => handleOpenEdit(item)}
-                      className="ml-auto py-2! px-4! text-[10px]! rounded-xl!"
+                      className="ml-auto py-2! px-4! text-[10px]! rounded-xl! opacity-80 group-hover:opacity-100"
                     >
                       Editar
                     </Button>
@@ -214,6 +226,14 @@ export function RawMaterialsPage() {
             </tbody>
           </table>
         </div>
+
+        {!loading && items.length === 0 && (
+          <div className="text-center py-20 bg-white rounded-4xl border-2 border-dashed border-inventory-100">
+            <p className="text-inventory-400 italic font-medium uppercase tracking-widest">
+              Nenhum insumo cadastrado
+            </p>
+          </div>
+        )}
       </div>
 
       <RawMaterialModal

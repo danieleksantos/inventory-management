@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Swal from 'sweetalert2';
 import { Header } from '../components/Header';
 import { ProductModal } from '../components/ProductModal';
@@ -23,9 +23,21 @@ export function ProductsPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({ name: '', price: 0 });
 
-  useEffect(() => {
-    dispatch(fetchProducts());
+  const loadInitialData = useCallback(async () => {
+    try {
+      await dispatch(fetchProducts()).unwrap();
+    } catch (error) {
+      console.error('Erro ao buscar produtos:', error);
+      Toast.fire({
+        icon: 'error',
+        title: 'ERRO AO CARREGAR DADOS',
+      });
+    }
   }, [dispatch]);
+
+  useEffect(() => {
+    loadInitialData();
+  }, [loadInitialData]);
 
   const handleOpenCreate = () => {
     setEditingProduct(null);
@@ -63,7 +75,6 @@ export function ProductsPage() {
     } catch (error: unknown) {
       const message = getErrorMessage(error);
       Toast.fire({ icon: 'error', title: message.toUpperCase() });
-      console.error('Save error:', error);
     } finally {
       setIsSubmitting(false);
     }
@@ -104,7 +115,6 @@ export function ProductsPage() {
       } catch (error: unknown) {
         const message = getErrorMessage(error);
         Toast.fire({ icon: 'error', title: message.toUpperCase() });
-        console.error('Delete error:', error);
         setIsModalOpen(true);
       } finally {
         setIsSubmitting(false);
@@ -133,28 +143,28 @@ export function ProductsPage() {
         </Button>
       </div>
 
-      <div className="relative">
+      <div className="relative min-h-100">
         {loading && (
           <div
-            className="absolute inset-0 bg-white/60 z-10 flex items-center justify-center rounded-4xl"
+            className="absolute inset-0 bg-white/60 z-10 flex items-center justify-center rounded-4xl backdrop-blur-[2px]"
             data-testid="skeleton-loader"
           >
-            <Loader2 className="animate-spin text-accent-primary" />
+            <Loader2 className="animate-spin text-accent-primary" size={32} />
           </div>
         )}
 
         <div className="grid grid-cols-1 gap-6 md:hidden">
           {items.map((product) => (
-            <div
+            <article
               key={product.id}
-              className="bg-white rounded-4xl border border-inventory-100 shadow-sm overflow-hidden flex flex-col"
+              className="bg-white rounded-4xl border border-inventory-100 shadow-sm overflow-hidden flex flex-col hover:border-accent-primary/30 transition-colors"
             >
               <div className="p-8 flex flex-col gap-5">
                 <div className="space-y-1">
                   <p className="text-[9px] font-black text-inventory-300 uppercase tracking-[0.2em]">
                     Produto
                   </p>
-                  <h4 className="text-lg font-black text-inventory-800 uppercase italic tracking-tighter leading-tight wrap-break-word">
+                  <h4 className="text-lg font-black text-inventory-800 uppercase italic tracking-tighter leading-tight wrap-break-words">
                     {product.name}
                   </h4>
                 </div>
@@ -176,18 +186,18 @@ export function ProductsPage() {
                     variant="secondary"
                     icon={Edit3}
                     onClick={() => handleOpenEdit(product)}
-                    className="py-3! px-5! text-[10px]! rounded-2xl! shadow-lg shadow-accent-primary/10 transition-transform active:scale-95"
+                    className="py-3! px-5! text-[10px]! rounded-2xl! shadow-lg shadow-accent-primary/10"
                   >
                     Editar
                   </Button>
                 </div>
               </div>
-            </div>
+            </article>
           ))}
         </div>
 
         <div className="hidden md:block bg-white rounded-4xl border border-inventory-100 shadow-sm overflow-hidden">
-          <table className="w-full text-left font-bold">
+          <table className="w-full text-left font-bold" role="table">
             <thead className="bg-inventory-50 text-xs text-inventory-400 uppercase tracking-widest">
               <tr>
                 <th className="px-8 py-5">Produto</th>
@@ -199,12 +209,12 @@ export function ProductsPage() {
               {items.map((product) => (
                 <tr
                   key={product.id}
-                  className="hover:bg-inventory-50/10 transition-colors"
+                  className="hover:bg-inventory-50/10 transition-colors group"
                 >
-                  <td className="px-8 py-4 text-inventory-800 font-black wrap-break-word">
+                  <td className="px-8 py-4 text-inventory-800 font-black wrap-break-word max-w-xs">
                     {product.name}
                   </td>
-                  <td className="px-8 py-4 text-center text-inventory-600">
+                  <td className="px-8 py-4 text-center text-inventory-600 font-black italic">
                     R${' '}
                     {product.price.toLocaleString('pt-BR', {
                       minimumFractionDigits: 2,
@@ -215,7 +225,7 @@ export function ProductsPage() {
                       variant="secondary"
                       icon={Edit3}
                       onClick={() => handleOpenEdit(product)}
-                      className="ml-auto py-2! px-4! text-[10px]! rounded-xl!"
+                      className="ml-auto py-2! px-4! text-[10px]! rounded-xl! opacity-80 group-hover:opacity-100"
                     >
                       Editar
                     </Button>
@@ -225,6 +235,14 @@ export function ProductsPage() {
             </tbody>
           </table>
         </div>
+
+        {!loading && items.length === 0 && (
+          <div className="text-center py-20 bg-white rounded-4xl border-2 border-dashed border-inventory-100">
+            <p className="text-inventory-400 italic font-medium uppercase tracking-widest">
+              Nenhum produto catalogado
+            </p>
+          </div>
+        )}
       </div>
 
       <ProductModal

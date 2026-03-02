@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "format": "prettier --write \"src/**/*.{js,jsx,css,md}\"",
+    "test:open": "cypress open",
     "test:local": "cypress run --config baseUrl=http://localhost:80",
     "test:prod": "cypress run --config baseUrl=https://inventory-management-lac-rho.vercel.app"
   },
@@ -20,6 +21,7 @@
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-redux": "^9.2.0",
+    "react-router-dom": "^7.13.1",
     "sweetalert2": "^11.26.20"
   },
   "devDependencies": {

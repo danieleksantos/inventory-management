@@ -2,25 +2,35 @@
 
 describe('Smart Inventory - Homologação de Sistema', () => {
   beforeEach(() => {
+    // Mock de Insumos
     cy.intercept('GET', '**/raw-materials', { fixture: 'materials.json' }).as(
       'getMaterials',
     );
+
+    // Mock de Produtos
     cy.intercept('GET', '**/products', {
       body: [{ id: 1, name: 'PRODUTO TESTE', price: 1500.0 }],
     }).as('getProducts');
+
+    // Mock de Inteligência de Produção (Dashboard)
     cy.intercept('GET', '**/production-suggestions', {
       body: { suggestions: [], remainders: [] },
-    }).as('getDashboard');
+    }).as('getSuggestions');
 
     cy.viewport(1280, 720);
+
+    // Visita inicial com verificação de redirecionamento
     cy.visit('http://localhost:80');
+    cy.url().should('include', '/dashboard');
+
+    // Garante que o App "hidratou" (Sidebar visível)
     cy.get('[role="navigation"]', { timeout: 10000 }).should('be.visible');
   });
 
-  describe('Gerenciamento de Cadastros (Insumos e Produtos)', () => {
-    it('deve permitir a navegação e o fechamento do modal de novos insumos', () => {
+  describe('Fluxos de Cadastro e Edição', () => {
+    it('navega para materiais e permite fechar o modal de criação', () => {
       cy.get('[role="navigation"]')
-        .contains('button', /Matéria Prima/i)
+        .contains('a', /Matéria Prima/i)
         .click();
       cy.contains('button', /Novo Insumo/i).click();
 
@@ -31,9 +41,9 @@ describe('Smart Inventory - Homologação de Sistema', () => {
       cy.get('h3').should('not.exist');
     });
 
-    it('deve carregar os dados persistidos ao abrir a edição de um produto', () => {
+    it('exibe os dados do produto corretamente ao abrir o formulário de edição', () => {
       cy.get('[role="navigation"]')
-        .contains('button', /Produtos/i)
+        .contains('a', /Produtos/i)
         .click();
       cy.wait('@getProducts');
 
@@ -43,69 +53,76 @@ describe('Smart Inventory - Homologação de Sistema', () => {
           cy.contains('button', /Editar/i).click();
         });
 
+      // Valida o preenchimento automático do formulário
       cy.get('input[name="productName"]').should('have.value', 'PRODUTO TESTE');
     });
 
-    it('deve exibir mensagens de erro e bloquear o envio se campos obrigatórios estiverem vazios', () => {
+    it('valida campos obrigatórios e impede o envio de formulários vazios', () => {
       cy.get('[role="navigation"]')
-        .contains('button', /Matéria Prima/i)
+        .contains('a', /Matéria Prima/i)
         .click();
       cy.contains('button', /Novo Insumo/i).click();
 
       cy.get('input[name="name"]').clear();
       cy.get('form').submit();
 
-      // Validação de acessibilidade e feedback visual (UX)
+      // Verifica estado de erro (A11y)
       cy.get('input[name="name"]').should('have.attr', 'aria-invalid', 'true');
       cy.contains(/Campo obrigatório/i).should('be.visible');
     });
   });
 
-  describe('Experiência do Usuário (UX)', () => {
-    it('deve exibir o estado de carregamento (Skeleton) durante a busca de dados na API', () => {
-      // atraso forçado para garantir que o componente de Loading seja renderizado e capturado
+  describe('Interface e Resiliência', () => {
+    it('exibe skeletons de carregamento durante a espera pela resposta da API', () => {
       cy.intercept('GET', '**/products', {
         body: [{ id: 1, name: 'PRODUTO LENTO', price: 100.0 }],
         delay: 1000,
       }).as('slowResponse');
 
       cy.get('[role="navigation"]')
-        .contains('button', /Produtos/i)
+        .contains('a', /Produtos/i)
         .click();
-
       cy.get('[data-testid="skeleton-loader"]').should('be.visible');
       cy.wait('@slowResponse');
       cy.get('[data-testid="skeleton-loader"]').should('not.exist');
-
-      // Validação específica na tabela para evitar conflitos com layout mobile escondido
-      cy.get('table').contains('td', 'PRODUTO LENTO').should('be.visible');
-    });
-  });
-
-  describe('Resiliência e Layout Responsivo', () => {
-    it('deve apresentar a barra de navegação corretamente em dispositivos móveis', () => {
-      cy.viewport('iphone-xr');
-      cy.get('button[aria-label="Abrir menu"]').click();
-
-      cy.get('[role="navigation"]').should(($aside) => {
-        expect($aside[0].getBoundingClientRect().left).to.equal(0);
-      });
+      cy.contains('td', 'PRODUTO LENTO').should('be.visible');
     });
 
-    it('deve alertar o usuário quando houver falha de comunicação com o servidor', () => {
+    it('alerta o usuário em caso de falha crítica na comunicação com o backend', () => {
       cy.intercept('GET', '**/production-suggestions', { statusCode: 500 }).as(
         'apiError',
       );
 
       cy.visit('http://localhost:80');
       cy.wait('@apiError');
-
       cy.get('body').should('contain', 'ERRO AO CARREGAR DADOS');
     });
   });
 
-  describe('Cálculos e Lógica de Negócio', () => {
-    it('deve processar e exibir corretamente o cálculo de Receita Estimada no Dashboard', () => {
+  describe('Navegação e Roteamento', () => {
+    it('abre a Sidebar corretamente em visualização mobile', () => {
+      cy.viewport('iphone-xr');
+      cy.get('button[aria-label="Abrir menu"]').click();
+
+      // Valida posição física do menu na tela (Mobile Experience)
+      cy.get('[role="navigation"]').should(($aside) => {
+        expect($aside[0].getBoundingClientRect().left).to.equal(0);
+      });
+    });
+
+    it('renderiza página 404 customizada ao acessar rotas inexistentes', () => {
+      cy.visit('/rota-que-nao-existe', { failOnStatusCode: false });
+      cy.contains(/Caminho Não Encontrado/i, { timeout: 15000 }).should(
+        'be.visible',
+      );
+
+      cy.contains('button', /Ir para Dashboard/i).click();
+      cy.url().should('include', '/dashboard');
+    });
+  });
+
+  describe('Regras de Negócio', () => {
+    it('calcula e formata corretamente a Receita Estimada no Dashboard', () => {
       cy.intercept('GET', '**/production-suggestions', {
         body: {
           suggestions: [
@@ -118,7 +135,7 @@ describe('Smart Inventory - Homologação de Sistema', () => {
       cy.visit('http://localhost:80');
       cy.wait('@getSuggestions');
 
-      // Valida se a regra de negócio (quantidade * preço) reflete o valor formatado em PT-BR
+      // Verifica formatação R$ 2.000,00 (Brasil)
       cy.contains('p', /2\.000,00/).should('be.visible');
     });
   });

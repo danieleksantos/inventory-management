@@ -45,7 +45,7 @@ const rawMaterialSlice = createSlice({
       })
       .addCase(fetchRawMaterials.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message || 'Erro ao carregar insumos';
+        state.error = action.error.message || 'ERRO AO CARREGAR INSUMOS';
       })
 
       .addCase(deleteRawMaterial.fulfilled, (state, action) => {

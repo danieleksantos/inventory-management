@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import {
   LayoutDashboard,
   Package,
@@ -9,18 +10,13 @@ import {
 } from 'lucide-react';
 
 const menuItems = [
-  { icon: LayoutDashboard, label: 'Dashboard', id: 'dashboard' },
-  { icon: Package, label: 'Produtos', id: 'products' },
-  { icon: Database, label: 'Matéria Prima', id: 'materials' },
-  { icon: Library, label: 'Composição', id: 'compositions' },
+  { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard' },
+  { icon: Package, label: 'Produtos', path: '/products' },
+  { icon: Database, label: 'Matéria Prima', path: '/materials' },
+  { icon: Library, label: 'Composição', path: '/compositions' },
 ];
 
-interface SidebarProps {
-  activePage: string;
-  setActivePage: (id: string) => void;
-}
-
-export function Sidebar({ activePage, setActivePage }: SidebarProps) {
+export function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -82,31 +78,28 @@ export function Sidebar({ activePage, setActivePage }: SidebarProps) {
         </div>
 
         <nav className="flex-1 px-6 py-8 space-y-2 overflow-y-auto">
-          {menuItems.map((item) => {
-            const isActive = activePage === item.id;
-            return (
-              <button
-                key={item.id}
-                role="menuitem"
-                aria-current={isActive ? 'page' : undefined}
-                onClick={() => {
-                  setActivePage(item.id);
-                  setIsOpen(false);
-                }}
-                className={`
-                  w-full flex items-center gap-4 px-6 py-4 rounded-2xl font-black uppercase text-xs tracking-widest transition-all cursor-pointer
-                  ${
-                    isActive
-                      ? 'bg-accent-primary text-white shadow-xl'
-                      : 'text-inventory-400 hover:translate-x-1'
-                  }
-                `}
-              >
-                <item.icon size={20} strokeWidth={isActive ? 3 : 2} />
-                <span>{item.label}</span>
-              </button>
-            );
-          })}
+          {menuItems.map((item) => (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              onClick={() => setIsOpen(false)}
+              className={({ isActive }) => `
+                w-full flex items-center gap-4 px-6 py-4 rounded-2xl font-black uppercase text-xs tracking-widest transition-all cursor-pointer
+                ${
+                  isActive
+                    ? 'bg-accent-primary text-white shadow-xl'
+                    : 'text-inventory-400 hover:translate-x-1 hover:text-accent-primary'
+                }
+              `}
+            >
+              {({ isActive }) => (
+                <>
+                  <item.icon size={20} strokeWidth={isActive ? 3 : 2} />
+                  <span>{item.label}</span>
+                </>
+              )}
+            </NavLink>
+          ))}
         </nav>
 
         <div className="p-8 space-y-4">
