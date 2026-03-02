@@ -146,8 +146,8 @@ O projeto conta com uma cobertura completa de testes para garantir que a aplica�
 ### 1. Back-end (JUnit 5, RestAssured & PanacheMock)
 A camada de serviços e os endpoints da API são validados por testes que garantem a resiliência do sistema:
 
-- Testes de Integração: Validam o ciclo completo de vida (CRUD) e o contrato JSON dos endpoints, garantindo que a API responda conforme o esperado.
-- Testes de Unidade: Focam na inteligência do ProductionService, simulando cenários reais como:
+- **Testes de Integração:** Validam o ciclo completo de vida (CRUD) e o contrato JSON dos endpoints, garantindo que a API responda conforme o esperado.
+- **Testes de Unidade:** Focam na inteligência do ProductionService, simulando cenários reais como:
   - Priorização de Valor: Garante que itens caros tenham precedência sobre itens baratos na disputa por insumos.
   - Cálculo de Gargalo (Bottleneck): Valida se o sistema identifica corretamente qual insumo limita a produção máxima.
   - Tratamento de Exceções: Verifica o comportamento do sistema com estoques zerados ou composições ausentes.
