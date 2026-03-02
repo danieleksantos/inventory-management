@@ -161,11 +161,12 @@ cd backend
 ### 2. Front-end (Cypress E2E)
 Os testes de ponta a ponta validam a jornada do usuário e a robustez da interface:
 
-- Acessibilidade (A11y): Validação de estados de erro via aria-invalid, uso de aria-labels em elementos interativos e navegação semântica por roles.
-- Experiência do Usuário (UX): Teste de perceived performance garantindo que os Skeleton Loaders sejam exibidos corretamente durante respostas lentas da API.
-- Resiliência: Simulação de falhas críticas no servidor (Status 500) para garantir que o usuário receba feedbacks de erro claros em vez de uma tela em branco.
-- Layout Responsivo: Testes automatizados mudando o viewport para dispositivos móveis (ex: iPhone XR), garantindo que a barra de navegação e o menu lateral funcionem perfeitamente no toque.
-- Lógica de Negócio Visual: Verificação da formatação de moeda em PT-BR e do cálculo de Receita Estimada no Dashboard.
+- **Acessibilidade (A11y):** Validação de estados de erro via aria-invalid, uso de aria-labels em elementos interativos e navegação semântica baseada em ARIA Roles (ex: role="navigation", role="main").
+- **Gestão de Roteamento & 404:** Verificação de integridade das rotas do React Router, garantindo que URLs inválidas sejam capturadas pela NotFoundPage customizada, evitando telas de erro padrão do servidor (Nginx).
+- **Experiência do Usuário (UX):** Teste de perceived performance garantindo que os Skeleton Loaders sejam exibidos corretamente durante o estado de loading das APIs.
+- **Resiliência de Interface:** Simulação de falhas críticas no servidor (HTTP 500) para validar se a aplicação oferece feedbacks claros (Toasts/Alertas) em vez de estados inconsistentes.
+- **Layout Responsivo:** Testes automatizados com transição de viewports (ex: iPhone XR), validando a funcionalidade do menu drawer mobile e a adaptação dos cards de produção.
+- **Lógica de Negócio Visual:** Verificação da formatação de moeda para o padrão brasileiro (BRL) e a precisão do cálculo de Receita Estimada exibido no Dashboard.
 
 #### Como testar    
 ```bash
@@ -177,6 +178,8 @@ npm run test:prod
 # Rodar testes contra o ambiente Local (Docker)
 npm run test:local
 ```
+
+Nota Técnica: A suíte utiliza cy.intercept() para mockar o backend, permitindo testar cenários de borda (como delays de rede e erros de servidor) de forma determinística e isolada.
 
 ## Interface e Experiência do Usuário (UX)
 A interface foi projetada para ser intuitiva, focando na eficiência operacional da indústria.
