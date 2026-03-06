@@ -15,8 +15,8 @@ export const SystemWakeUp = ({ retryCount }: SystemWakeUpProps) => (
       Acordando o Sistema
     </h2>
     <p className="text-inventory-600 max-w-md leading-relaxed">
-      Estamos iniciando os serviços no plano gratuito do Render. Isso pode levar
-      cerca de 50 segundos. Agradecemos a paciência!
+      Estamos iniciando os serviços no Render. Isso pode levar cerca de 50
+      segundos. Agradecemos a paciência!
     </p>
 
     <div className="mt-8 flex gap-2 justify-center">
