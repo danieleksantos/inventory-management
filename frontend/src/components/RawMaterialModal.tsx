@@ -85,7 +85,7 @@ export function RawMaterialModal({
                 type="text"
                 name="name"
                 data-cy="input-material-name"
-                placeholder="EX: AÇO GALVANIZADO"
+                placeholder="EX: AÇO"
                 aria-invalid={!!formErrors.name}
                 className={`w-full bg-inventory-100/50 border-2 p-4 rounded-2xl outline-none transition-all font-bold text-inventory-800 uppercase ${
                   formErrors.name
